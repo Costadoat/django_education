@@ -6,5 +6,5 @@ django-jchart==0.4.2
 django-model-utils==3.2.0
 django-quiz-app==0.5.1
 gunicorn==19.9.0
-Pillow==6.1.0
+Pillow==6.2.0
 
