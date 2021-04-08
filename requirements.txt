@@ -1,4 +1,4 @@
-Django==3.0.7
+Django==3.0.14
 cmake==3.17.2
 django-filter==2.4.0
 django-jchart==0.4.2
