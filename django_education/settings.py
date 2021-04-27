@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django_filters',
     'django_tex',
     'django.contrib.sitemaps',
+    'captcha',
 ]
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

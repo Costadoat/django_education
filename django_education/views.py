@@ -3,8 +3,9 @@
 from django.shortcuts import render, redirect, HttpResponseRedirect
 from .models import Utilisateur, sequence, sequence_info, famille_competence, competence, cours, cours_info,\
     td, td_info, tp, ilot,tp_info, khole, Note, Etudiant, Professeur, langue_vivante, DS, systeme, parametre, fichier_systeme,\
-    image_systeme, video, ressource, item_synthese, fiche_synthese, reponse_item_synthese
+    image_systeme, video, ressource, item_synthese, fiche_synthese, reponse_item_synthese, seance, reglage_date
 
+from vacances_scolaires_france import SchoolHolidayDates
 from quiz.models import Quiz, Category, Progress
 from django.utils import timezone
 from django.db.models import Sum, Avg, Func
@@ -514,7 +515,7 @@ def relative_url_image_sysml(request, id_systeme, data):
 
 @login_required(login_url='/accounts/login/')
 def fiche_ressource_edit(request,id_sequence,id_ressource,id_etudiant=None):
-    fiche = fiche_synthese.objects.get(ressource__id=id_ressource)
+    fiche = fiche_synthese.objects.get(ressource__sequence__id=id_sequence,ressource__numero=id_ressource)
     items=item_synthese.objects.filter(fiche_synthese=fiche)
     number=len(items)
     if request.user.is_authenticated:
@@ -567,7 +568,8 @@ def generer_fiche_synthese(request,id_sequence,id_ressource,id_etudiant=None):
                 if id_etudiant==None:
                     reponse=item
                 else:
-                    reponse=reponse_item_synthese.objects.get(item_synthese=item,etudiant__user__id=id_etudiant)
+                    if reponse_item_synthese.objects.filter(item_synthese=item,etudiant__user__id=id_etudiant):
+                        reponse=reponse_item_synthese.objects.get(item_synthese=item,etudiant__user__id=id_etudiant)
             fiche_display.append([item,reponse])
             fichier='S'+"%02i" % id_sequence + 'C' + "%02i" % int(fiche.ressource.numero)+'_Fiche.pdf'
         context={'Fiche': fiche,'Items': fiche_display, 'edit': False,'Utilisateur': utilisateur, 'prof_etudiant':(id_etudiant!=None)}
@@ -620,3 +622,58 @@ def liste_fiches_ressource(request, *args):
     else:
         return render(request, '/accounts/login/')
 
+def progression(request):
+    date_rentree=reglage_date.objects.get(nom='Rentrée').jour
+    CB1=reglage_date.objects.get(nom='Lundi concours blanc 1').jour
+    CB2=reglage_date.objects.get(nom='Lundi concours blanc 2').jour
+    while date_rentree.weekday()!=0:
+        date_rentree+=-datetime.timedelta(days=1)
+    print(date_rentree,date_rentree.weekday())
+    cours=[]
+    tds=[]
+    tps=[]
+    semaines=[]
+    d = SchoolHolidayDates()
+
+    for sean in seance.objects.all():
+        if sean.ressource.type_de_ressource()[0]=='cours':
+            if sean.duree_seance==0:
+                cours[-1].append(sean)
+            else:
+                for i in range(sean.duree_seance):
+                    cours.append([sean])
+        if sean.ressource.type_de_ressource()[0]=='td':
+            if sean.duree_seance==0:
+                tds[-1].append(sean)
+            else:
+                for i in range(sean.duree_seance):
+                    tds.append([sean])
+        if sean.ressource.type_de_ressource()[0]=='tp':
+            if sean.duree_seance==0:
+                tps[-1].append(sean)
+            else:
+                for i in range(sean.duree_seance):
+                    tps.append([sean])
+    cours=cours+['']*(max(len(cours),len(tds),len(tps))-len(cours))
+    tds=tds+['']*(max(len(cours),len(tds),len(tps))-len(tds))
+    tps=tps+['']*(max(len(cours),len(tds),len(tps))-len(tps))
+    present=0
+    i,j=0,0
+    print(tps)
+    while j < len(cours):
+        date=date_rentree+datetime.timedelta(days=7*i)
+        if date < date.today():
+            color="#cccdcd"
+        elif date <= date.today() and date>date.today()-datetime.timedelta(days=7):
+            color="#03a5f6"
+        else:
+            color=""
+        if d.is_holiday_for_zone(date, 'C') and d.is_holiday_for_zone(date+datetime.timedelta(days=1), 'C') and date.month!=8:
+            semaines.append([i+1,date,color,False,True,False])
+        elif date==CB1 or date==CB2:
+            semaines.append([i+1,date,color,False,False,True])
+        else:
+            semaines.append([i+1,date,color,[cours[j],tds[j],tps[j]],False,False])
+            j+=1
+        i+=1
+    return render(request, 'progression.html', {'semaines':semaines})

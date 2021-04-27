@@ -133,10 +133,20 @@
 <br class="row">
 <p>Ressources visuelles du système:</p>
       {% for image in images %}
-    {{image.type_image_systeme}}
-    <div class="text-center">
-        <img src="{{image.url_image}}?sanitize=true" class="img-fluid" alt="Responsive image">
-    </div>
+
+    {% if image.type_image_systeme.extension == "mp4" %}
+        <br>
+        {{image.nom}}
+        <div class="embed-responsive embed-responsive-16by9">
+            <video controls  src="{{image.url_image}}" class="img-fluid" alt="Responsive image">image.nom</video>
+        </div>
+
+    {% else %}
+        {{image.type_image_systeme}}
+        <div class="text-center">
+            <img src="{{image.url_image}}?sanitize=true" class="img-fluid" alt="Responsive image">
+        </div>
+    {% endif %}
     {% endfor %}
  </br>
 

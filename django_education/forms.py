@@ -1,13 +1,15 @@
 from django import forms
 from .models import item_synthese
 from django.forms import ModelForm
+from captcha.fields import CaptchaField
 
 class ContactForm(forms.Form):
     subject = forms.CharField(label="Sujet du message ")
     sender = forms.EmailField(label="Expéditeur (à modifier si besoin) ")
     cc_myself = forms.BooleanField(required=False, label="Envoyer une copie sur mon mail ")
     message = forms.CharField(widget=forms.Textarea)
-
+    captcha = CaptchaField()
+    
 class ReponseItemSyntheseForm(forms.Form):
     def __init__(self, *args, **kwargs):
         fiche = kwargs.pop('fiche')

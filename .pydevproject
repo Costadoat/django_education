@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?eclipse-pydev version="1.0"?><pydev_project>
+                
+    
+    
+    <pydev_property name="org.python.pydev.PYTHON_PROJECT_INTERPRETER">Default</pydev_property>
+                
+    
+    
+    <pydev_property name="org.python.pydev.PYTHON_PROJECT_VERSION">python interpreter</pydev_property>
+            
+
+    
+    <pydev_variables_property name="org.python.pydev.PROJECT_VARIABLE_SUBSTITUTION">
+        <key>env_var:GNOME_DESKTOP_SESSION_ID</key>
+        <value>this-is-deprecated</value>
+        <key>env_var:INVOCATION_ID</key>
+        <value>ea574804d971480b92d6df7e6c7c3b8d</value>
+        <key>PY</key>
+        <value>38</value>
+        <key>env_var:LANG</key>
+        <value>fr_FR.UTF-8</value>
+        <key>env_var:XDG_CONFIG_DIRS</key>
+        <value>/etc/xdg/xdg-ubuntu:/etc/xdg</value>
+        <key>env_var:SSH_AGENT_PID</key>
+        <value>3322</value>
+        <key>env_var:PWD</key>
+        <value>/home/renaud</value>
+        <key>env_var:XDG_MENU_PREFIX</key>
+        <value>gnome-</value>
+        <key>env_var:DBUS_SESSION_BUS_ADDRESS</key>
+        <value>unix:path=/run/user/1000/bus</value>
+        <key>env_var:HOME</key>
+        <value>/home/renaud</value>
+        <key>env_var:XDG_DATA_DIRS</key>
+        <value>/usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop</value>
+        <key>env_var:GDK_CORE_DEVICE_EVENTS</key>
+        <value>1</value>
+        <key>env_var:DEFAULTS_PATH</key>
+        <value>/usr/share/gconf/ubuntu.default.path</value>
+        <key>env_var:MANAGERPID</key>
+        <value>3147</value>
+        <key>env_var:WINDOWPATH</key>
+        <value>2</value>
+        <key>env_var:XDG_CURRENT_DESKTOP</key>
+        <value>ubuntu:GNOME</value>
+        <key>env_var:DISPLAY</key>
+        <value>:0</value>
+        <key>env_var:LOGNAME</key>
+        <value>renaud</value>
+        <key>env_var:PATH</key>
+        <value>/home/renaud/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/renaud/.komodoide/12.0/XRE/state:/home/renaud/.komodoide/12.0/XRE/state</value>
+        <key>env_var:XDG_SESSION_CLASS</key>
+        <value>user</value>
+        <key>env_var:GTK_MODULES</key>
+        <value>gail:atk-bridge</value>
+        <key>env_var:MANDATORY_PATH</key>
+        <value>/usr/share/gconf/ubuntu.mandatory.path</value>
+        <key>env_var:XDG_SESSION_TYPE</key>
+        <value>x11</value>
+        <key>env_var:GPG_AGENT_INFO</key>
+        <value>/run/user/1000/gnupg/S.gpg-agent:0:1</value>
+        <key>env_var:JOURNAL_STREAM</key>
+        <value>8:53512</value>
+        <key>env_var:XMODIFIERS</key>
+        <value>@im=ibus</value>
+        <key>DJANGO_MANAGE_LOCATION</key>
+        <value>manage.py</value>
+        <key>env_var:GDMSESSION</key>
+        <value>ubuntu</value>
+        <key>env_var:GJS_DEBUG_TOPICS</key>
+        <value>JS ERROR;JS LOG</value>
+        <key>env_var:XDG_RUNTIME_DIR</key>
+        <value>/run/user/1000</value>
+        <key>env_var:LIBOVERLAY_SCROLLBAR</key>
+        <value>0</value>
+        <key>env_var:XDG_SESSION_DESKTOP</key>
+        <value>ubuntu</value>
+        <key>env_var:_</key>
+        <value>/usr/bin/dbus-update-activation-environment</value>
+        <key>env_var:USER</key>
+        <value>renaud</value>
+        <key>env_var:SSH_AUTH_SOCK</key>
+        <value>/run/user/1000/keyring/ssh</value>
+        <key>env_var:OXYGEN_DISABLE_INNER_SHADOWS_HACK</key>
+        <value>1</value>
+        <key>env_var:XAUTHORITY</key>
+        <value>/run/user/1000/gdm/Xauthority</value>
+        <key>env_var:GIO_LAUNCHED_DESKTOP_FILE_PID</key>
+        <value>43882</value>
+        <key>env_var:USERNAME</key>
+        <value>renaud</value>
+        <key>env_var:QT_IM_MODULE</key>
+        <value>ibus</value>
+        <key>env_var:IM_CONFIG_PHASE</key>
+        <value>1</value>
+        <key>env_var:SHELL</key>
+        <value>/bin/bash</value>
+        <key>env_var:SESSION_MANAGER</key>
+        <value>local/renpc:@/tmp/.ICE-unix/3359,unix/renpc:/tmp/.ICE-unix/3359</value>
+        <key>env_var:GNOME_SHELL_SESSION_MODE</key>
+        <value>ubuntu</value>
+        <key>env_var:SHLVL</key>
+        <value>0</value>
+        <key>DJANGO_SETTINGS_MODULE</key>
+        <value>django_education.settings</value>
+        <key>env_var:GJS_DEBUG_OUTPUT</key>
+        <value>stderr</value>
+        <key>env_var:QT_ACCESSIBILITY</key>
+        <value>1</value>
+        <key>env_var:GIO_LAUNCHED_DESKTOP_FILE</key>
+        <value>/home/renaud/.local/share/applications/eclipse.desktop</value>
+        <key>env_var:DESKTOP_SESSION</key>
+        <value>ubuntu</value>
+    </pydev_variables_property>
+    
+</pydev_project>

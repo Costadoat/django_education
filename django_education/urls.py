@@ -15,7 +15,7 @@ from .views import index, upload_eleves,\
     resultats, resultats_vierge, details, ds_eleve, resultats_quizz, resultats_quizz_eleve, contact, thanks, afficher_systeme, lister_ds_si,\
     afficher_sysml, relative_url_sysml, relative_url_image_sysml, afficher_sequence_videos,\
     afficher_ressource_videos, fiche_ressource_edit, fiche_ressource_display, generer_fiche_synthese_PDF,\
-    liste_fiches_ressource
+    liste_fiches_ressource, progression
 
 sitemaps = {
     "sequences": SequenceSitemap,
@@ -51,6 +51,7 @@ urlpatterns = [
     path('si/<int:id_sequence>/r<int:id_ressource>/videos/', afficher_ressource_videos),
     path('info/<int:id_sequence>/', afficher_sequence_info),
     path('si/ds/', lister_ds_si),
+    path('si/progression/', progression),
     path('si/', lister_ressources_si),
     path('info/', lister_ressources_info),
     path('competences', lister_competences),
@@ -77,5 +78,8 @@ urlpatterns = [
     path('contact/', contact),
     path('thanks/', thanks),
     path('', index),
-    path('admin/', admin.site.urls)
+    path('admin/', admin.site.urls),
+    url(r'^captcha/', include('captcha.urls')),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+

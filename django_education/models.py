@@ -27,6 +27,13 @@ def annee_scolaire(date):
     else:
         return str(date.year)+'-'+str(date.year+1)
 
+class reglage_date(models.Model):
+    nom = models.CharField(max_length=100)
+    jour = models.DateField()
+    def __str__(self):
+        return self.nom+' : '+str(self.jour)
+
+
 class sequence(models.Model):
     numero = models.IntegerField()
     nom = models.CharField(max_length=100)
@@ -801,3 +808,15 @@ class reponse_item_synthese(models.Model):
             +" - %02d" % self.item_synthese.fiche_synthese.ressource.numero+' '\
                +self.item_synthese.fiche_synthese.ressource.nom\
                +' '+ "%02d" % self.item_synthese.numero+' '+str(self.etudiant.user.id)
+
+
+class seance(models.Model):
+    ressource=models.ForeignKey('ressource', on_delete=models.CASCADE)
+    rang = models.IntegerField()
+    duree_seance = models.IntegerField()
+    class Meta:
+        ordering = ['rang']
+
+    def __str__(self):
+        return "%02d" % self.rang+' S'+str("%02d" % self.ressource.sequence.numero)+'-'+self.ressource.type_de_ressource()[1]\
+               +str("%02d" % self.ressource.numero)+' '+self.ressource.nom
