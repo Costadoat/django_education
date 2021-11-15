@@ -9,6 +9,34 @@ class ContactForm(forms.Form):
     cc_myself = forms.BooleanField(required=False, label="Envoyer une copie sur mon mail ")
     message = forms.CharField(widget=forms.Textarea)
     captcha = CaptchaField()
+
+CHOICES=[('1','Premier ordre (K,\u03C4)'),('2',u'Second ordre (K,\u03BE,\u03C90)'),('3','Second ordre (K,\u03C91,\u03C92)'),('4','Forme générale'),('5','Exercice simple'),('6','Exercice pas simple')]
+
+class TraceBodeForm(forms.Form):
+    format = forms.ChoiceField(choices=CHOICES, widget = forms.RadioSelect(attrs = {
+            'onclick' : "this.form.submit();",}))
+    
+class TraceBodeForm1erordre(forms.Form):
+    K = forms.FloatField(label="K", required=False)
+    tau = forms.FloatField(label="\u03C4", required=False)
+
+class TraceBodeForm2ndordre1(forms.Form):
+    K = forms.FloatField(label="K", required=False)
+    xi = forms.FloatField(label="\u03BE", required=False)
+    w0 = forms.FloatField(label="\u03C90", required=False)
+
+class TraceBodeForm2ndordre2(forms.Form):
+    K = forms.FloatField(label="K", required=False)
+    w1 = forms.FloatField(label="\u03C91", required=False)
+    w2 = forms.FloatField(label="\u03C92", required=False)
+
+class TraceBodeFormGenerale(forms.Form):
+    numerateur = forms.CharField(label="Num", required=False)
+    denominateur = forms.CharField(label="Dén", required=False)
+
+class TraceBodeRandom(forms.Form):
+    visible = forms.ChoiceField(choices=[('1','Caché'),('2','Visible')], widget = forms.RadioSelect(attrs = {
+            'onclick' : "ShowHideAnswer();",}))
     
 class ReponseItemSyntheseForm(forms.Form):
     def __init__(self, *args, **kwargs):

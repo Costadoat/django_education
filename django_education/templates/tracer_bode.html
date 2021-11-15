@@ -1,0 +1,60 @@
+{% extends "base1.html" %}
+
+{% load static %}
+
+    {% block title %}Tracer Bode {% endblock %}
+{% block bodyId %}traceBode{% endblock %}
+
+{% block titre_page %} Tracer Bode {% endblock %}
+
+{%block content1 %}
+
+
+    <!-- Marketing Icons Section -->
+    <div class="row">
+        <div class="col">
+            <form method="post">
+			  {% csrf_token %}
+				{{ form.as_p}}
+				{{ form1.as_p}}
+ 			  <span id="testing">{{Reponse|safe}}</span>
+ 			  <br><br>
+			  <button type="submit" class="btn btn-primary">Tracer</button>			
+			  </form>
+            </div>
+            </div>
+
+
+{%if module %}
+
+    <div class="row">
+        <div class="col-lg-6 mb-8">
+
+{{module.as_html}}
+
+<br>
+
+{{phase.as_html}}
+            </div>
+            </div>
+
+{% endif %}
+
+<script>
+window.addEventListener("load", function(event) {
+    document.getElementById('testing').style.visibility = "hidden";
+  });
+  
+function ShowHideAnswer() {
+    var test_1 = document.getElementsByName('visible');
+    if (test_1[1].checked) {
+        document.getElementById('testing').style.visibility = "visible";
+    }
+    if (!test_1[1].checked) {
+        document.getElementById('testing').style.visibility = "hidden";
+    }
+}
+
+</script> 
+
+{% endblock %}

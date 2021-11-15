@@ -3,7 +3,8 @@
 from django.shortcuts import render, redirect, HttpResponseRedirect
 from .models import Utilisateur, sequence, sequence_info, famille_competence, competence, cours, cours_info,\
     td, td_info, tp, ilot,tp_info, khole, Note, Etudiant, Professeur, langue_vivante, DS, systeme, parametre, fichier_systeme,\
-    image_systeme, video, ressource, item_synthese, fiche_synthese, reponse_item_synthese, seance, reglage_date
+    image_systeme, video, ressource, item_synthese, fiche_synthese, reponse_item_synthese, seance, reglage_date,\
+    application
 
 from vacances_scolaires_france import SchoolHolidayDates
 from quiz.models import Quiz, Category, Progress
@@ -13,15 +14,19 @@ from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django_tex.shortcuts import render_to_pdf
 
-from .forms import ContactForm, ReponseItemSyntheseForm
+from .forms import ContactForm, ReponseItemSyntheseForm, TraceBodeForm, TraceBodeForm1erordre, TraceBodeForm2ndordre1,\
+    TraceBodeForm2ndordre2, TraceBodeFormGenerale, TraceBodeRandom
 import datetime
 from jchart import Chart
 from jchart.config import Axes, DataSet, rgba
-from math import ceil
+from math import ceil, log10, pi
+from numpy import arange
+from cmath import phase
 from .filters import SystemeFiltre
 from django.http import HttpResponse
 from urllib.request import urlopen
 import unicodedata
+import random
 
 github='https://github.com/Costadoat/'
 
@@ -55,6 +60,7 @@ def upload_eleves(request):
             new_persons = request.FILES['myfile']
             imported_data = new_persons.read().decode("utf-8")
             lignes = imported_data.split("\n")
+            print(lignes)
             for ligne1 in lignes[1:-1]:
                 ligne=ligne1.split(';')
                 mail=remove_space(ligne[3])
@@ -121,12 +127,12 @@ def afficher_sequence_si(request, id_sequence):
     sequence_a_afficher=sequence.objects.get(numero=id_sequence)
     courss=cours.objects.filter(sequence__numero=id_sequence)
     videos=video.objects.filter(ressource__sequence__numero=id_sequence)
+    applications=application.objects.filter(ressource__sequence__numero=id_sequence)
     tds=td.objects.filter(sequence__numero=id_sequence)
     tps=tp.objects.filter(sequence__numero=id_sequence)
     liste_ilots=[]
     for tp_one in tps:
         ilots=ilot.objects.filter(tp=tp_one)
-        #print(ilots[0].systeme.nom)
         liste_ilots.append([tp_one,ilots])
     kholes=khole.objects.filter(sequence__numero=id_sequence)
     quizzes=Quiz.objects.filter(category__category__startswith="SI-S%02d" % id_sequence)
@@ -270,7 +276,6 @@ def resultats_quizz_eleve(request):
         elif test_col>=0.7:
             color='#3dd614'
         notes_triees_eleve[cats.index(notes[3*i])]=[color,str(notes[3*i+1])+'/'+str(notes[3*i+2])]
-    print(notes_triees_eleve)
     notes_triees.append([request.user.first_name,request.user.last_name,notes_triees_eleve])
     context = {
     'notes_triees':notes_triees, 'cats':cats
@@ -503,13 +508,17 @@ def thanks(request):
 
 def afficher_sysml(request,id_systeme):
     nom_systeme=systeme.objects.get(id=id_systeme)
-    url=remove_accents('https://ghcdn.rawgit.org/Costadoat/Sciences-Ingenieur/master/Systemes/'+str(nom_systeme)+'/SysMl/data.js')
+    url=remove_accents('https://cdn.jsdelivr.net/gh/Costadoat/Sciences-Ingenieur@master/Systemes/'+str(nom_systeme)+'/SysMl/data.js')
     return render(request, 'sysml.html', {'thanks': True, 'id_systeme':id_systeme, 'url_data_js':url})
 
 def relative_url_sysml(request, id_systeme, dossier, data):
     nom_systeme=systeme.objects.get(id=id_systeme)
     return redirect(remove_accents('https://github.com/Costadoat/Sciences-Ingenieur/raw/master/Systemes/'+str(nom_systeme)+'/SysMl/'+dossier+'/'+data))
 
+def relative_url_sysml_app(request, id_systeme, fichier):
+    id_get=request.GET.get('_dc', '')
+    return redirect(remove_accents('https://cdn.jsdelivr.net/gh/Costadoat/django_education@master/django_education/static/sysml_player/app/view/'+str(fichier)+'?_dc='+str(id_get)))
+    
 def relative_url_image_sysml(request, id_systeme, data):
     return redirect('/static/sysml_player/images/'+data)
 
@@ -628,7 +637,6 @@ def progression(request):
     CB2=reglage_date.objects.get(nom='Lundi concours blanc 2').jour
     while date_rentree.weekday()!=0:
         date_rentree+=-datetime.timedelta(days=1)
-    print(date_rentree,date_rentree.weekday())
     cours=[]
     tds=[]
     tps=[]
@@ -659,7 +667,6 @@ def progression(request):
     tps=tps+['']*(max(len(cours),len(tds),len(tps))-len(tps))
     present=0
     i,j=0,0
-    print(tps)
     while j < len(cours):
         date=date_rentree+datetime.timedelta(days=7*i)
         if date < date.today():
@@ -677,3 +684,183 @@ def progression(request):
             j+=1
         i+=1
     return render(request, 'progression.html', {'semaines':semaines})
+
+def tracer_bode(request):
+    Reponse=''
+    if request.method == 'POST':
+        form = TraceBodeForm(request.POST)
+            # check whether it's valid:        
+        if form.is_valid():
+            format=form.cleaned_data['format']
+            if format=='1':
+                form1 = TraceBodeForm1erordre(request.POST)
+            elif format=='2':
+                form1 = TraceBodeForm2ndordre1(request.POST)
+            elif format=='3':
+                form1 = TraceBodeForm2ndordre2(request.POST)
+            elif format=='4':
+                form1 = TraceBodeFormGenerale(request.POST)
+            else:
+                form1 = TraceBodeRandom(request.POST)
+                if not form1.is_valid():
+                    form1 = TraceBodeRandom()
+                    form1.fields['visible'].initial = [1]
+        H=[]
+        P=[]
+        if form1.is_valid():
+            if format=='1':
+                K = form1.cleaned_data['K']
+                tau = form1.cleaned_data['tau']
+                if K and tau:
+                    K=float(K)
+                    tau=float(tau)
+                    w0=1/tau
+                    puissance_w=arange(log10(w0)-3,log10(w0)+3,0.1)
+                    w=10**puissance_w
+                    H=[20*log10(abs(K/(1+tau*1j*wi))) for wi in w]
+                    P=[(180/pi)*phase(K/(1+tau*1j*wi)) for wi in w]
+            elif format=='2':
+                K = form1.cleaned_data['K']
+                xi = form1.cleaned_data['xi']
+                w0 = form1.cleaned_data['w0']
+                if K and xi and w0:
+                    K=float(K)
+                    xi=float(xi)
+                    w0=float(w0)
+                    puissance_w=arange(log10(w0)-3,log10(w0)+3,0.1)
+                    w=10**puissance_w
+                    H=[20*log10(abs(K/(1+2*xi*1j*wi/w0-(wi/w0)**2))) for wi in w]
+                    P=[(180/pi)*phase(K/(1+2*xi*1j*wi/w0-(wi/w0)**2)) for wi in w]
+            elif format=='3':
+                K = form1.cleaned_data['K']
+                w1 = form1.cleaned_data['w1']
+                w2 = form1.cleaned_data['w2']
+                if K and w1 and w2:
+                    K=float(K)
+                    w1=float(w1)
+                    w2=float(w2)
+                    w0=(1/(w1*w2))**()
+                    puissance_w=arange(log10(w0)-3,log10(w0)+3,0.1)
+                    w=10**puissance_w
+                    H=[20*log10(abs(K/((1+1j*wi/w1)*(1+1j*wi/w2)))) for wi in w]
+                    P=[(180/pi)*phase(K/((1+1j*wi/w1)*(1+1j*wi/w2))) for wi in w]
+            elif format=='4':
+                numerateur = form1.cleaned_data['numerateur']
+                denominateur = form1.cleaned_data['denominateur']
+                if numerateur and denominateur:
+                    w0=1
+                    lnum=numerateur.split(',')
+                    ldem=denominateur.split(',')
+                    puissance_w=arange(log10(w0)-3,log10(w0)+3,0.1)
+                    w=10**puissance_w
+                    H=[]
+                    P=[]
+                    for wi in w:
+                        num=0
+                        for idx, coeff in enumerate(lnum):
+                            num+=float(coeff)*(1j*wi)**idx
+                        dem=0
+                        for idx, coeff in enumerate(ldem):
+                            dem+=float(coeff)*(1j*wi)**idx
+                        H.append(20*log10(abs(num/dem)))
+                        P.append((180/pi)*phase(num/dem))                    
+            else:
+                if format=='5':
+                    lmax=[[1,3],[1,2]]
+                    ordre=lmax[random.sample([0,1],1)[0]]
+                    classe=random.sample([0,1],1)[0]
+                else:
+                    ordre=[2,3]
+                lnum = []
+                ldem = []
+                for i in range(0,ordre[0]):
+                    n = random.randint(1,100)/10
+                    lnum.append(n)
+                for i in range(0,ordre[1]):
+                    n = random.randint(1,100)/10
+                    ldem.append(n)
+                if classe==1:
+                    ldem[0]=0
+                    ldem[1]=1
+                w0=(1/ldem[-1])**(1/(len(ldem)-1))
+                puissance_w=arange(log10(w0)-3,log10(w0)+3,0.1)
+                w=10**puissance_w
+                H=[]
+                P=[]
+                for wi in w:
+                    dem,num=0,0
+                    tnum,tdem='',''
+                    for idx, coeff in enumerate(lnum):
+                        num+=float(coeff)*(1j*wi)**idx
+                        if idx==0:
+                            tnum+=str(coeff)+'+'
+                        elif idx==1:
+                            tnum+=str(coeff)+'p+'
+                        else:
+                            tnum+=str(coeff)+'p<SUP>'+str(idx)+'</SUP>+'
+                    for idx, coeff in enumerate(ldem):
+                        dem+=float(coeff)*(1j*wi)**idx
+                        if idx==0:
+                            if coeff!=0:
+                                tdem+=str(coeff)+'+'
+                        elif idx==1:
+                            if coeff!=1:
+                                tdem+=str(coeff)+'p+'
+                            else:
+                                tdem+='p+'
+                        else:
+                            tdem+=str(coeff)+'p<SUP>'+str(idx)+'</SUP>+'
+                    tnum=tnum[:-1]
+                    tdem=tdem[:-1]
+                    H.append(20*log10(abs(num/dem)))
+                    P.append((180/pi)*phase(num/dem))
+                    Reponse='Solution: <SUP>'+tnum+'</SUP>/<SUB>'+tdem+'</SUB>'
+            if len(H)>0:
+                lemodule = BodeChart('Module (dB)',[[w[i],H[i]] for i in range(len(w))])
+                lemodule.title = {'display': True,'text': 'Module (dB)'}
+                laphase = BodeChart('Phase (°)',[[w[i],P[i]] for i in range(len(w))])
+                laphase.title = {'display': True,'text': 'Phase (°)'}
+            else:
+                lemodule, laphase = None, None
+        else:
+            lemodule, laphase = None, None
+    else:
+        form = TraceBodeForm()
+        form.fields['format'].initial = [1]
+        form1 = TraceBodeForm1erordre()
+        lemodule, laphase = None, None
+    return render(request, 'tracer_bode.html', {'form': form,'form1': form1, 'module':lemodule, 'phase':laphase, 'Reponse':Reponse})
+
+class BodeChart(Chart):
+    def __init__(self, name, module):
+        Chart.__init__(self)
+        self.module=module
+        self.name=name
+        
+    chart_type = 'line'
+    scales = {
+        'xAxes': [Axes(type='logarithmic', position='bottom', scaleLabel={
+            'display': True,
+            'labelString': 'Pulsation (rad/s)'
+          })],
+    }
+    title = {
+            'display': True,
+            'text': 'Nom'
+        }
+    legend = {
+        'display': False,}
+    
+
+    def get_datasets(self, **kwargs):
+        data=[]
+        for i in range(len(self.module)):
+            data.append({'x': self.module[i][0],'y' : self.module[i][1]})
+
+        return [DataSet(
+            type='line',
+            label=self.name,
+            borderColor="#3e95cd",
+            data=data,
+            fill=False
+        )]

@@ -1,8 +1,8 @@
 from django.contrib import admin
 from .models import sequence, filiere_prepa, ecole, concours, sujet, systeme, cours, td, tp, ilot, matiere, langue_vivante,\
-    Etudiant, Professeur, Utilisateur, cours_info, td_info, tp_info, competence, khole, DS, Note, parametre,\
+    Etudiant, Professeur, Utilisateur, cours_info, td_info, tp_info, khole, DS, Note, parametre,\
     grandeur, type_de_fichier, type_image_systeme, fichier_systeme, image_systeme, video, fiche_synthese, item_synthese,\
-    reponse_item_synthese, seance, reglage_date
+    reponse_item_synthese, seance, reglage_date, application
 
 from multichoice.models import MCQuestion, Answer
 from quiz.models import Question
@@ -110,8 +110,9 @@ admin.site.register(Utilisateur)
 admin.site.register(Etudiant)
 admin.site.register(Professeur)
 admin.site.register(cours)
-admin.site.register(competence)
 admin.site.register(khole)
 admin.site.register(DS)
 admin.site.register(Note)
 admin.site.register(video, VideoAdmin)
+admin.site.register(application)
+

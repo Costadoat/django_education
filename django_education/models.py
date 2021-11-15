@@ -272,6 +272,9 @@ class ressource(models.Model):
     def exist_video(self):
         return video.objects.filter(ressource=self)
 
+    def exist_application(self):
+        return application.objects.filter(ressource=self)
+    
     def exist_fiche(self):
         return fiche_synthese.objects.get(ressource=self)
 
@@ -459,15 +462,23 @@ class video(models.Model):
              '/Videos/'
         return dossier+self.nom_fichier+'?raw=true'
 
+class application(models.Model):
+    ressource = models.ForeignKey(ressource, on_delete=models.CASCADE)
+    numero = models.IntegerField()
+    nom = models.CharField(max_length=100)
+    def __str__(self):
+        return str("%02d" % self.ressource.sequence.numero)+'-'+str("%02d" % self.numero)+' '+self.nom
+
+    
 class ressource_info(models.Model):
     sequence = models.ForeignKey(sequence_info, on_delete=models.CASCADE)
     numero = models.IntegerField()
     nom = models.CharField(max_length=100)
     description = models.CharField(max_length=1000)
+    basthon = models.CharField(max_length=1000,blank=True)
 
     def str_numero(self):
         return "%02d" % self.numero
-
 
 class cours_info(ressource_info):
 

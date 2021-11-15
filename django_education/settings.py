@@ -150,3 +150,7 @@ try:
     from .local_settings import *
 except ImportError:
     pass
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+'django.template.context_processors.request',
+)

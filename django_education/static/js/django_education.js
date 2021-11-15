@@ -6,7 +6,7 @@ $("selection-button").click(function(e) {
         type: "GET",
         url: url,
         data: {
-            id: $('#etudiant').val();,
+            id: $('#etudiant').val();
             },
         success: function(result) {
             alert('ok');

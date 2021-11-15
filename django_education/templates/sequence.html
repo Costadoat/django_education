@@ -1,7 +1,7 @@
 {% extends "base1.html" %}
 {% block title %}Liste des séquences{% endblock %}
 {% block bodyId %}sequencePage{% endblock %}
-
+{% load static %}
 {% block titre_page %}Séquence {{sequence.str_numero}} - {{sequence.nom}}{% endblock %}
 
 {% block content1 %}
@@ -30,6 +30,7 @@
         </div>
     {% endif %}
 
+    
     <div class="row">
         {% if courss %}
             <h2 class="my-4"> Cours </h2><br>
@@ -41,6 +42,11 @@
                             <td class="sixtyfive"> {{cours.nom}}</td>
                             {% if cours.exist_video%}
                                 <td class="five"> <a href="r{{cours.id}}/videos/"><i class='fas fa-film'></i></a></td>
+                            {% else %}
+                                <td class="five"></td>
+                            {% endif %}
+                            {% if cours.exist_application%}
+                                <td class="five"> <a href="{{cours.exist_application.0.nom}}/"><i class='fas fa-drafting-compass'></i></a></td>
                             {% else %}
                                 <td class="five"></td>
                             {% endif %}
@@ -136,6 +142,9 @@
                             <td class="five"> <a href="{{tp.url_prive}}"><i class='fas far fa-eye-slash'></i></a></td>
                             <td class="five"> <a href="{{tp.url_git}}"><i class='fab fa-github'></i></a></td>
                             <td class="five"> <a href="{{tp.url_python}}"><i class='fab fa-python'></i></a></td>
+                            {% if tp.basthon %}
+                            <td class="five"> <a href="{{tp.basthon}}"> <img src="{% static 'img/basthon.svg' %}"></a></td>
+                            {% endif %}
                         </tr>
                     {% endif %}
                 {% endfor %}
