@@ -99,10 +99,16 @@ class systeme(models.Model):
     sysml = models.BooleanField(default=False)
     def __str__(self):
         return self.nom
+    
+    def files_type(self):
+        return [fichier.id for fichier in fichier_systeme.objects.filter(systeme=self)]
 
     def uses(self):
         liste_ressources=ressource.objects.filter(systeme=self)
         return len(liste_ressources)
+
+    def url(self):
+        return remove_accents(github + 'Sciences-Ingenieur/raw/master/Systemes/' + self.nom + '/')
 
     class Meta:
             ordering = ['nom']
@@ -479,6 +485,29 @@ class ressource_info(models.Model):
 
     def str_numero(self):
         return "%02d" % self.numero
+    
+    def type_de_ressource(self):
+        for name in ['cours_info','td_info','tp_info']:
+            try:
+                attr = getattr(self, name)
+                if isinstance(attr, self.__class__):
+                    if name=='cours_info':
+                        return name,'C'
+                    elif name=='td_info':
+                        return name,'TD'
+                    else:
+                        return name,'TP'
+            except:
+                pass
+    def url_pdf(self):
+        return url(self,"info","pdf",self.type_de_ressource()[1],0)
+
+    def url_prive(self):
+        return url(self,"info","prive",self.type_de_ressource()[1],0)
+
+    def url_git(self):
+        return url(self,"info","git",self.type_de_ressource()[1],0)
+
 
 class cours_info(ressource_info):
 

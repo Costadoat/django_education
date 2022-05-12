@@ -152,10 +152,10 @@ def afficher_ressource_videos(request, id_sequence, id_ressource):
     return render(request, 'videos.html',{'sequence':sequence_a_afficher,'ressource':ressource_a_afficher,'videos':videos,'type_page':type_page})
 
 def afficher_sequence_info(request, id_sequence):
-    sequence_a_afficher=sequence_info.objects.get(id=id_sequence)
-    courss=cours_info.objects.filter(sequence=id_sequence)
-    tds=td_info.objects.filter(sequence=id_sequence)
-    tps=tp_info.objects.filter(sequence=id_sequence)
+    sequence_a_afficher=sequence_info.objects.get(numero=id_sequence)
+    courss=cours_info.objects.filter(sequence=sequence_a_afficher)
+    tds=td_info.objects.filter(sequence=sequence_a_afficher)
+    tps=tp_info.objects.filter(sequence=sequence_a_afficher)
     quizzes=Quiz.objects.filter(category__category="Info-S%02d" % id_sequence)
     return render(request, 'sequence.html', {'sequence':sequence_a_afficher,'courss':courss,'tds':tds,'tps':tps,'quizzes':quizzes,'info':True})
 
@@ -739,8 +739,11 @@ def tracer_bode(request):
                     K=float(K)
                     w1=float(w1)
                     w2=float(w2)
-                    w0=(1/(w1*w2))**()
-                    puissance_w=arange(log10(w0)-3,log10(w0)+3,0.1)
+                    w0=(w1*w2)**(1/2)
+                    print(w0)
+                    delta_l=abs(log10(w1)-log10(w2))
+                    print(delta_l)
+                    puissance_w=arange(log10(w0)-2*delta_l,log10(w0)+2*delta_l,0.1)
                     w=10**puissance_w
                     H=[20*log10(abs(K/((1+1j*wi/w1)*(1+1j*wi/w2)))) for wi in w]
                     P=[(180/pi)*phase(K/((1+1j*wi/w1)*(1+1j*wi/w2))) for wi in w]
@@ -771,6 +774,7 @@ def tracer_bode(request):
                     classe=random.sample([0,1],1)[0]
                 else:
                     ordre=[2,3]
+                    classe=random.sample([0,1],1)[0]
                 lnum = []
                 ldem = []
                 for i in range(0,ordre[0]):

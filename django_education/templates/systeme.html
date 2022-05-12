@@ -5,7 +5,7 @@
 {% block title %}Système{% endblock %}
 {% block bodyId %}systemPage{% endblock %}
 
-{% block titre_page %}{{systeme.nom}}{% endblock %}
+{% block titre_page %}{{systeme.nom}}{{systeme.type_de_fichier}} <a href="{{systeme.url}}"><i class='fab fa-github'></i></a> {% endblock %}
 
 {%block content1 %}
 
