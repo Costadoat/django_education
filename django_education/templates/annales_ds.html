@@ -18,7 +18,7 @@
         <th  colspan="5" style="text-align:center">{{annee.0}}</th></tr>
             {% for ds in annee.1 %}
         <tr onclick="window.location='{{fichier.url_fichier}}' "class="table">
-          <td class="five" style="text-align:left"> DS{{ds.numero|stringformat:"02d" }}</td>
+          <td class="five" style="text-align:left"> {{ds.type_de_ds}}{{ds.numero|stringformat:"02d" }}</td>
 	  <td class="twenty" style="text-align:center"> {{ds.date|date:"d F Y" }}</td>
           <td class="fifty" style="text-align:center" > {{ds.support.systeme}}</td>
           <td class="five"> <a href="{{ds.url_ds_pdf}}"><i class='fas far fa-file-pdf'></i></a></td>

@@ -37,10 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'jchart',
-    'quiz',
-    'multichoice',
-    'true_false',
-    'essay',
+    'django_quiz.quiz',
+    'django_quiz.multichoice',
+    'django_quiz.true_false',
+    'django_quiz.essay',
     'django_education',
     'gunicorn',
     'django_filters',
@@ -154,3 +154,5 @@ except ImportError:
 TEMPLATE_CONTEXT_PROCESSORS = (
 'django.template.context_processors.request',
 )
+
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'

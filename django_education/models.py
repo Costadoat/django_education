@@ -94,7 +94,7 @@ class concours(models.Model):
 
 class systeme(models.Model):
     nom = models.CharField(max_length=100)
-    description = models.CharField(max_length=1000)
+    description = models.TextField(max_length=1000)
     image = models.FileField(upload_to='systemes/')
     sysml = models.BooleanField(default=False)
     def __str__(self):
@@ -643,19 +643,19 @@ class Professeur(models.Model):
         return self.user.last_name+' '+self.user.first_name
 
 def url_ds(self, lien):
-    dossier = github + 'Sciences-Ingenieur/raw/master/DS/' + annee_scolaire(self.date) +'/DS'+ ("%02d" % self.numero) + "/"
+    dossier = github + 'Sciences-Ingenieur/raw/master/DS/' + annee_scolaire(self.date) +'/'+ self.type_de_ds + ("%02d" % self.numero) + "/"
     if lien == 'git':
        return dossier
     elif lien == 'pdf':
-        return dossier + 'DS' + str("%02d" % self.numero) + ".pdf"
+        return dossier + self.type_de_ds + str("%02d" % self.numero) + ".pdf"
     elif lien == 'prive':
-        return dossier + 'DS' + str("%02d" % self.numero) + "_prive.pdf"
+        return dossier + self.type_de_ds + str("%02d" % self.numero) + "_prive.pdf"
 
 class DS(models.Model):
     TYPE_DE_DS = [
         ('DS', 'DS'),
         ('DM', 'DM'),
-        ('Cours', 'Cours'),
+        ('DC', 'DC'),
         ('CB', 'CB')
     ]
     type_de_ds=models.CharField(
@@ -689,7 +689,7 @@ class DS(models.Model):
             support=' ('+str(self.sujet_support.all()[0])+')'
         else:
             support=''
-        return str(self.date)+' DS'+str(self.numero)+support
+        return str(self.date)+' '+str(self.type_de_ds)+str(self.numero)+support
 
     class Meta:
         ordering = ['-date']
@@ -860,3 +860,16 @@ class seance(models.Model):
     def __str__(self):
         return "%02d" % self.rang+' S'+str("%02d" % self.ressource.sequence.numero)+'-'+self.ressource.type_de_ressource()[1]\
                +str("%02d" % self.ressource.numero)+' '+self.ressource.nom
+
+
+class note_suivi(models.Model):
+    etudiant = models.ForeignKey('Etudiant', on_delete=models.CASCADE)
+    date = models.DateField()
+    note = models.TextField(max_length=1000)
+    def __str__(self):
+        return str(self.date)+' '+self.etudiant.user.last_name+' '+self.etudiant.user.first_name
+
+
+
+
+

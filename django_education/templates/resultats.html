@@ -62,7 +62,7 @@
       <th scope="col">Id</th>
       <th scope="col">Référence</th>
       <th scope="col">Nom</th>
-      <th scope="col">Handle</th>
+      <th scope="col">Note</th>
     </tr>
   </thead>
   <tbody>
@@ -71,7 +71,7 @@
       <th scope="row">{{comp.1}}-{{comp.0}}</th>
       <td>{{comp.2}}</td>
       <td>{{comp.3}}</td>
-      <td>{{comp.4}}</td>
+      <td>{{comp.4|floatformat}}</td>
     </tr>
 
 
@@ -98,8 +98,8 @@
                  {% for label, eleve, classe in chart.get_notes_glob %}
                 <tr>
                     <td>{{label}}</td>
-                    <td>{{eleve}}</td>
-                    <td>{{classe}}</td>
+                    <td>{{eleve|floatformat}}</td>
+                    <td>{{classe|floatformat}}</td>
                 </tr>
             {% endfor %}
                 </tbody>

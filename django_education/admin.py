@@ -2,11 +2,11 @@ from django.contrib import admin
 from .models import sequence, filiere_prepa, ecole, concours, sujet, systeme, cours, td, tp, ilot, matiere, langue_vivante,\
     Etudiant, Professeur, Utilisateur, cours_info, td_info, tp_info, khole, DS, Note, parametre,\
     grandeur, type_de_fichier, type_image_systeme, fichier_systeme, image_systeme, video, fiche_synthese, item_synthese,\
-    reponse_item_synthese, seance, reglage_date, application, sequence_info
+    reponse_item_synthese, seance, reglage_date, application, sequence_info, note_suivi
 
-from multichoice.models import MCQuestion, Answer
-from quiz.models import Question
-from quiz.admin import AnswerInline
+from django_quiz.multichoice.models import MCQuestion, Answer
+from django_quiz.quiz.models import Question
+from django_quiz.quiz.admin import AnswerInline
 from django import forms
 
 class ParametreInline(admin.TabularInline):
@@ -114,6 +114,7 @@ admin.site.register(cours)
 admin.site.register(khole)
 admin.site.register(DS)
 admin.site.register(Note)
+admin.site.register(note_suivi)
 admin.site.register(video, VideoAdmin)
 admin.site.register(application)
 

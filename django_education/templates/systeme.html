@@ -51,7 +51,7 @@
         </tr>
     {% endfor %}
     {% for ilot in ilots %}
-        <tr onclick="window.location='/si/{{tp.sequence.numero}}/'" class="table">
+        <tr onclick="window.location='/si/{{ilot.tp.sequence.numero}}/'" class="table">
               <td class="col-xs-1" style="text-align:center">TP</td>
               <td class="col-xs-1" style="text-align:center">{{ilot.nom_tp}}</td>
               <td class="five"> <a href="{{ilot.url_pdf}}"><i class='fas far fa-file-pdf'></i></a></td>

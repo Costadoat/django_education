@@ -2,7 +2,11 @@ from django import forms
 from .models import item_synthese
 from django.forms import ModelForm
 from captcha.fields import CaptchaField
+from datetime import datetime
 
+today = datetime.now()
+date_today=today.strftime("%Y-%m-%d")
+    
 class ContactForm(forms.Form):
     subject = forms.CharField(label="Sujet du message ")
     sender = forms.EmailField(label="Expéditeur (à modifier si besoin) ")
@@ -47,3 +51,13 @@ class ReponseItemSyntheseForm(forms.Form):
             self.fields[item.reference()] = forms.CharField(widget=forms.Textarea, required=False)
             self.fields[item.reference()] .widget.attrs['class'] = 'form-control'
             self.fields[item.reference()].help_text = [item.question,item.couleur,item.image]
+
+class FicheSuiviForm(forms.Form):
+    date = forms.DateTimeField(
+            widget=forms.DateTimeInput(attrs={
+                'class': 'form-control',
+                'type': 'date',
+                'value': date_today
+            })
+        )
+    note = forms.CharField(label="Note",widget=forms.Textarea)

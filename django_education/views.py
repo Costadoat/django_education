@@ -4,18 +4,19 @@ from django.shortcuts import render, redirect, HttpResponseRedirect
 from .models import Utilisateur, sequence, sequence_info, famille_competence, competence, cours, cours_info,\
     td, td_info, tp, ilot,tp_info, khole, Note, Etudiant, Professeur, langue_vivante, DS, systeme, parametre, fichier_systeme,\
     image_systeme, video, ressource, item_synthese, fiche_synthese, reponse_item_synthese, seance, reglage_date,\
-    application
+    application,note_suivi
 
 from vacances_scolaires_france import SchoolHolidayDates
-from quiz.models import Quiz, Category, Progress
+from django_quiz.quiz.models import Quiz, Category, Progress
 from django.utils import timezone
 from django.db.models import Sum, Avg, Func
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django_tex.shortcuts import render_to_pdf
+from django.db.models.fields import FloatField
 
 from .forms import ContactForm, ReponseItemSyntheseForm, TraceBodeForm, TraceBodeForm1erordre, TraceBodeForm2ndordre1,\
-    TraceBodeForm2ndordre2, TraceBodeFormGenerale, TraceBodeRandom
+    TraceBodeForm2ndordre2, TraceBodeFormGenerale, TraceBodeRandom, FicheSuiviForm
 import datetime
 from jchart import Chart
 from jchart.config import Axes, DataSet, rgba
@@ -319,11 +320,6 @@ def details(request, id_etudiant):
         return render(request, 'resultats.html', context)
     else:
         return render(request, '/index')
-    
-class Round(Func):
-    function = 'ROUND'
-    arity = 2
-
 
 class ResultatsCharts(Chart):
 
@@ -341,10 +337,10 @@ class ResultatsCharts(Chart):
         self.etudiants = Etudiant.objects.filter(user__date_joined__gte=rentree_scolaire()).values('user','user__last_name', 'user__first_name')
         self.etudiant_note = Etudiant.objects.filter(user=id_etudiant).values('user','user__last_name', 'user__first_name')
         notes_glob = Note.objects.filter(etudiant=id_etudiant).exclude(value=9).exclude(competence=0)\
-            .values('competence__famille__nom').annotate(moyenne=Round(Avg('value'),2))\
+            .values('competence__famille__nom').annotate(moyenne=Avg('value'))\
             .order_by('competence__famille__nom')
         notes_glob_classe = Note.objects.filter(etudiant__user__date_joined__gte=rentree_scolaire()).exclude(value=9).exclude(competence=0)\
-            .values('competence__famille__nom').annotate(moyenne=Round(Avg('value'),2))\
+            .values('competence__famille__nom').annotate(moyenne=Avg('value'))\
             .order_by('competence__famille__nom')
 
         self.liste_label=[]
@@ -415,10 +411,10 @@ class DetailsCharts(Chart):
         self.etudiant_note = Etudiant.objects.filter(user=id_etudiant).values('user','user__last_name', 'user__first_name')
         notes = Note.objects.filter(etudiant__user=id_etudiant).exclude(value=9).exclude(competence=0)\
             .values('competence', 'competence__famille', 'competence__nom', 'competence__reference', 'competence__famille__nom')\
-            .annotate(moyenne=Round(Avg('value'),2)).order_by('competence')
+            .annotate(moyenne=Avg('value')).order_by('competence')
         notes_toute_classe = Note.objects.filter(etudiant__user__date_joined__gte=rentree_scolaire())\
             .exclude(value=9).exclude(competence=0).values('competence', 'competence__famille', 'competence__nom', 'competence__reference', 'competence__famille__nom')\
-            .annotate(moyenne=Round(Avg('value'),2)).order_by('competence')
+            .annotate(moyenne=Avg('value')).order_by('competence')
         self.liste_label=[]
         self.liste_comp=[]
         self.notes_eleve=[]
@@ -518,7 +514,7 @@ def relative_url_sysml(request, id_systeme, dossier, data):
 def relative_url_sysml_app(request, id_systeme, fichier):
     id_get=request.GET.get('_dc', '')
     return redirect(remove_accents('https://cdn.jsdelivr.net/gh/Costadoat/django_education@master/django_education/static/sysml_player/app/view/'+str(fichier)+'?_dc='+str(id_get)))
-    
+
 def relative_url_image_sysml(request, id_systeme, data):
     return redirect('/static/sysml_player/images/'+data)
 
@@ -689,7 +685,7 @@ def tracer_bode(request):
     Reponse=''
     if request.method == 'POST':
         form = TraceBodeForm(request.POST)
-            # check whether it's valid:        
+            # check whether it's valid:
         if form.is_valid():
             format=form.cleaned_data['format']
             if format=='1':
@@ -766,7 +762,7 @@ def tracer_bode(request):
                         for idx, coeff in enumerate(ldem):
                             dem+=float(coeff)*(1j*wi)**idx
                         H.append(20*log10(abs(num/dem)))
-                        P.append((180/pi)*phase(num/dem))                    
+                        P.append((180/pi)*phase(num/dem))
             else:
                 if format=='5':
                     lmax=[[1,3],[1,2]]
@@ -840,7 +836,7 @@ class BodeChart(Chart):
         Chart.__init__(self)
         self.module=module
         self.name=name
-        
+
     chart_type = 'line'
     scales = {
         'xAxes': [Axes(type='logarithmic', position='bottom', scaleLabel={
@@ -854,7 +850,7 @@ class BodeChart(Chart):
         }
     legend = {
         'display': False,}
-    
+
 
     def get_datasets(self, **kwargs):
         data=[]
@@ -868,3 +864,33 @@ class BodeChart(Chart):
             data=data,
             fill=False
         )]
+
+# @login_required(login_url='/accounts/login/')
+# def fiche_suivi_null(request):
+#     today = datetime.datetime.now()
+#     date_today=today.strftime("%Y-%m-%d")
+#     etudiants = Etudiant.objects.filter(annee='PTSI')
+#     return render(request, 'fiche_suivi.html', {'etudiants':etudiants})
+
+
+first_ptsi = Etudiant.objects.filter(annee='PTSI')[0]
+@login_required(login_url='/accounts/login/')
+def fiche_suivi(request, id_etudiant=first_ptsi):
+    etudiants = Etudiant.objects.filter(annee='PTSI')
+    etudiant_selected = Etudiant.objects.get(user=id_etudiant)
+    past_notes = note_suivi.objects.filter(etudiant=etudiant_selected)
+    # if this is a POST request we need to process the form data
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = FicheSuiviForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            date = form.cleaned_data['date']
+            note = form.cleaned_data['note']
+            suivi=note_suivi(etudiant=etudiant_selected,date=date, note=note)
+            suivi.save()
+        form = FicheSuiviForm()
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = FicheSuiviForm()
+    return render(request, 'fiche_suivi.html', {'form': form, 'etudiants':etudiants, 'etudiant_selected':etudiant_selected, 'past_notes':past_notes})

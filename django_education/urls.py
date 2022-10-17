@@ -1,7 +1,6 @@
 from django.contrib import admin
 from django.conf import settings
-from django.urls import path
-from django.conf.urls import url, include
+from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from django.conf.urls.static import static
 from django_filters.views import FilterView
@@ -15,7 +14,7 @@ from .views import index, upload_eleves,\
     resultats, resultats_vierge, details, ds_eleve, resultats_quizz, resultats_quizz_eleve, contact, thanks, afficher_systeme, lister_ds_si,\
     afficher_sysml, relative_url_sysml, relative_url_sysml_app, relative_url_image_sysml, afficher_sequence_videos,\
     afficher_ressource_videos, fiche_ressource_edit, fiche_ressource_display, generer_fiche_synthese_PDF,\
-    liste_fiches_ressource, progression, tracer_bode
+    liste_fiches_ressource, progression, tracer_bode, fiche_suivi
 
 sitemaps = {
     "sequences": SequenceSitemap,
@@ -27,15 +26,15 @@ app_name = 'registration'
 urlpatterns = [
    path("sitemap.xml", sitemap, {"sitemaps": sitemaps}, name="sitemap"),
     path('accounts/', include('django.contrib.auth.urls')),
-    url(r'^password-change-done/$',
+    path('password-change-done/',
         auth_views.PasswordChangeDoneView.as_view(template_name='registration/password_change_done.html'),
         name='password_change_done'
     ),
-    url(r'^password-change/$',
+    path('password-change/',
         auth_views.PasswordChangeView.as_view(template_name='registration/password_change.html'),
         name='password_change'
     ),
-    url(r'^password-change/$',
+    path('password-change/',
         auth_views.PasswordChangeView.as_view(template_name='registration/password_change.html'),
         name='password_change'
     ),
@@ -75,13 +74,15 @@ urlpatterns = [
     path('resultats/', resultats_vierge),
     path('resultats_quizz/', resultats_quizz),
     path('mes_resultats_quizz/', resultats_quizz_eleve),
-    path('q/', include('quiz.urls')),
+    path('q/', include('django_quiz.quiz.urls')),
     path('upload_eleves/', upload_eleves),
+    path('fiche_suivi/<int:id_etudiant>/', fiche_suivi),
+    path('fiche_suivi/', fiche_suivi),
     path('contact/', contact),
     path('thanks/', thanks),
     path('', index),
     path('admin/', admin.site.urls),
-    url(r'^captcha/', include('captcha.urls')),
+    path('captcha/', include('captcha.urls')),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 
