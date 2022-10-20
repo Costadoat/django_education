@@ -64,7 +64,7 @@ urlpatterns = [
     path('systeme/<int:id_systeme>/<str:dossier>/<str:data>', relative_url_sysml),
     path('competence/<int:id_famille>/', afficher_famille_competence),
     path('competence/<int:id_famille>/<int:id_competence>/', afficher_competence),
-    path('q/<str:nomquiz>/<str:action>/uploads/<str:year>/<str:month>/<str:day>/<str:nom>.<str:ext>', relative_url_view),
+    path('uploads/<str:year>/<str:month>/<str:day>/<str:nom>.<str:ext>', relative_url_view),
     path('admin/django_education/systeme/<str:id_systeme>/<str:action>/systemes/<str:nom>.<str:ext>', relative_url_view_systeme),
     path('admin/multichoice/mcquestion/<str:nomquiz>/<str:action>/uploads/<str:year>/<str:month>/<str:day>/<str:nom>.<str:ext>', relative_url_view),
     path('resultats/<int:id_etudiant>/ds/', ds_eleve),
@@ -84,5 +84,3 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('captcha/', include('captcha.urls')),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-
-

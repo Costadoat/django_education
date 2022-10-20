@@ -466,7 +466,7 @@ class DetailsCharts(Chart):
                         color=(179, 181, 198),
                         data=self.notes_classe)]
 
-def relative_url_view(request, nomquiz, action, year, month, day, ext, nom):
+def relative_url_view(request, year, month, day, ext, nom):
     return redirect('/static/uploads/'+year+'/'+month+'/'+day+'/'+nom+'.'+ext)
 
 def relative_url_view_systeme(request, ext, nom, id_systeme, action):
@@ -864,14 +864,6 @@ class BodeChart(Chart):
             data=data,
             fill=False
         )]
-
-# @login_required(login_url='/accounts/login/')
-# def fiche_suivi_null(request):
-#     today = datetime.datetime.now()
-#     date_today=today.strftime("%Y-%m-%d")
-#     etudiants = Etudiant.objects.filter(annee='PTSI')
-#     return render(request, 'fiche_suivi.html', {'etudiants':etudiants})
-
 
 first_ptsi = Etudiant.objects.filter(annee='PTSI')[0]
 @login_required(login_url='/accounts/login/')
