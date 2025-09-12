@@ -1,0 +1,32 @@
+{% extends "base1.html" %}
+
+{% load static %}
+
+{% block title %}Liste des séquences{% endblock %}
+{% block bodyId %}sequencePage{% endblock %}
+
+{% block titre_page %}Compétences{% endblock %}
+
+{%block content1 %}
+
+      <div class="row">
+      {% for competence in competences %}
+
+
+        <div class="col-lg-4 col-sm-6 portfolio-item">
+            <div class="card h-100">
+                <a href="competence/{{ competence.id }}/"><img class="card-img-top" src="/static/img/{{ competence.image }}" alt=""></a>
+                <div class="card-body">
+                    <h4 class="card-title">
+                        <a href="competence/{{ competence.id }}/">{{ competence.nom }}</a>
+                    </h4>
+                    <p class="card-text">{{ competence.description }}</p>
+                </div>
+            </div>
+      </div>
+      {% endfor %}
+    </div>
+    <!-- /.row -->
+
+
+{% endblock %}

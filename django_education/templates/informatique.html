@@ -1,0 +1,152 @@
+{% extends "base1.html" %}
+{% block title %}Liste des séquences{% endblock %}
+{% block bodyId %}sequencePage{% endblock %}
+{% load static %}
+{% block titre_page %}Informatique{% endblock %}
+
+{% block content1 %}
+
+    <br>
+
+
+    <div class="row">
+        {% if courss %}
+            <h2 class="my-4"> Cours </h2><br>
+            <table id="cours" class="table ressources">
+                {% for cours in courss %}
+                    <tr>
+                        <td class="ten">{{cours.str_numero}}</td>
+                        {% if si %}
+                            <td class="sixtyfive"> {{cours.nom}}</td>
+                            {% if cours.exist_video%}
+                                <td class="five"> <a href="r{{cours.id}}/videos/"><i class='fas fa-film'></i></a></td>
+                            {% else %}
+                                <td class="five"></td>
+                            {% endif %}
+                            {% if cours.exist_application%}
+                                <td class="five"> <a href="{{cours.exist_application.0.nom}}/"><i class='fas fa-drafting-compass'></i></a></td>
+                            {% else %}
+                                <td class="five"></td>
+                            {% endif %}
+                            {% if cours.exist_fiche %}
+                                <td class="five"> <a href="{{cours.numero}}/fiche_ressource/"><i class='far fa-file-alt'></i></a></td>
+                            {% else %}
+                                <td class="five"></td>
+                            {% endif %}
+                        <td class="five"> <a href="{{cours.url_pdf}}"><i class='fas far fa-file-pdf'></i></a></td>
+                        <td class="five"> <a href="{{cours.url_prive}}"><i class='fas far fa-eye-slash'></i></a></td>
+                        <td class="five"> <a href="{{cours.url_git}}"><i class='fab fa-github'></i></a></td>
+                        {% else %}
+                        <td class="seventy"> {{cours.nom}}</td>
+                        <td class="five"> <a href="{{cours.url_pdf}}"><i class='fas far fa-file-pdf'></i></a></td>
+                        <td class="five"> <a href="{{cours.url_prive}}"><i class='fas far fa-eye-slash'></i></a></td>
+                        <td class="five"> <a href="{{cours.url_git}}"><i class='fab fa-github'></i></a></td>
+                        <td class="five"> <a href="{{cours.url_python}}"><i class='fab fa-python'></i></a></td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+
+        {% if quizzes %}
+            <h2 class="my-4"> Quizzes </h2><br>
+            <table id="quizzes" class="table ressources">
+                {% for quiz in quizzes %}
+                    <tr>
+                        <td class="ten"><span style="text-transform:uppercase">{{quiz.url}}</span></td>
+                        <td class="seventyfive">{{quiz.title}}</td>
+                        <td class="fifteen"> <a href="/q/{{quiz.url}}"><i class="fas fa-check-square"></i></a></td>
+                    </tr>
+                {% endfor %}
+           </table>
+        {% endif %}
+
+        {% if tds %}
+            <h2 class="my-4"> Travaux Dirigés </h2>
+            <table id="td" class="table ressources">
+                {% for td in tds %}
+                    <tr>
+                        <td class="ten">{{td.str_numero}}</td>
+                        {% if si %}
+                        <td class="seventy"> {{td.nom}}</td>
+                        {% if td.exist_fiche %}
+                            <td class="five"> <a href="{{cours.id}}/fiche_ressource/"><i class='far fa-file-alt'></i></a></td>
+                        {% else %}
+                            <td class="five"></td>
+                        {% endif %}
+                        <td class="five"> <a href="{{td.url_pdf}}"><i class='fas far fa-file-pdf'></i></a></td>
+                        <td class="five"> <a href="{{td.url_prive}}"><i class='fas far fa-eye-slash'></i></a></td>
+                        <td class="five"> <a href="{{td.url_git}}"><i class='fab fa-github'></i></a></td>
+                        {% else %}
+                        <td class="seventy"> {{td.nom}}</td>
+                        <td class="five"> <a href="{{td.url_pdf}}"><i class='fas far fa-file-pdf'></i></a></td>
+                        <td class="five"> <a href="{{td.url_prive}}"><i class='fas far fa-eye-slash'></i></a></td>
+                        <td class="five"> <a href="{{td.url_git}}"><i class='fab fa-github'></i></a></td>
+                        <td class="five"> <a href="{{td.url_python}}"><i class='fab fa-python'></i></a></td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+           </table>
+        {% endif %}
+
+        {% if tps %}
+            <h2 class="my-4"> Travaux Pratiques </h2>
+            <table id="tp" class="table ressources">
+                {% for tp in tps %}
+                    {% if si %}
+                        <tr>
+                            <td class="five">{{tp.0.str_numero}}</td>
+                            <td class="five"></td>
+                            <td class="seventyfive"> {{tp.0.nom}}</td>
+                            <td class="five"></td>
+                            <td class="five"></td>
+                           <td class="five"></td>
+    			</tr>
+		        {% for ilot in tp.1 %}
+		            <tr>
+			        <td class="five"></td>
+				<td class="five">{{ilot.numero}}</td>
+				<td class="seventyfive"><a href="/systeme/{{ilot.systeme.id}}"><small>{{ilot.systeme.nom}}</small></a></td>
+		 	        <td class="five"> <a href="{{ilot.url_pdf}}"><i class='fas far fa-file-pdf'></i></a></td>
+                    <td class="five"> <a href="{{ilot.url_prive}}"><i class='fas far fa-eye-slash'></i></a></td>
+                    <td class="five"> <a href="{{ilot.url_git}}"><i class='fab fa-github'></i></a></td>
+			    </tr>
+		        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td class="ten">{{tp.str_numero}}</td>
+                            <td class="seventy"> {{tp.nom}}</td>
+                            <td class="five"> <a href="{{tp.url_pdf}}"><i class='fas far fa-file-pdf'></i></a></td>
+                            <td class="five"> <a href="{{tp.url_prive}}"><i class='fas far fa-eye-slash'></i></a></td>
+                            <td class="five"> <a href="{{tp.url_git}}"><i class='fab fa-github'></i></a></td>
+                            <td class="five"> <a href="{{tp.url_python}}"><i class='fab fa-python'></i></a></td>
+                            {% if tp.basthon %}
+                            <td class="five"> <a href="{{tp.basthon}}"> <img src="{% static 'img/basthon.svg' %}"></a></td>
+                            {% endif %}
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </table>
+        {% endif %}
+
+        {% if kholes %}
+            <h2 class="my-4"> Kholes </h2>
+            <table id="khole" class="table ressources">
+                {% for khole in kholes %}
+                    <tr>
+                        <td class="ten">{{khole.str_numero}}</td>
+                        <td class="seventyfive"> {{khole.nom}}</td>
+                        <td class="five"> <a href="{{khole.url_pdf}}"><i class='fas far fa-file-pdf'></i></a></td>
+                        <td class="five"> <a href="{{khole.url_prive}}"><i class='fas far fa-eye-slash'></i></a></td>
+                        <td class="five"> <a href="{{khole.url_git}}"><i class='fab fa-github'></i></a></td>
+                    </tr>
+                {% endfor %}
+
+            </table>
+        {% endif %}
+
+      </div>
+    <!-- /.row -->
+
+
+{% endblock %}

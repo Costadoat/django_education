@@ -1,0 +1,28 @@
+{% extends "base1.html" %}
+{% block title %}Compétence {% endblock %}
+{% block bodyId %}sequencePage{% endblock %}
+
+{% block titre_page %} TOTO {% endblock %}
+
+{%block content1 %}
+
+<section>
+
+    <div class="container" >
+<form method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Update">
+</form>
+
+    </div></section>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script type="text/javascript">
+        $('.formset_row').formset({
+            addText: '<i class="fa fa-plus" aria-hidden="true"></i> Ajouter un produit',
+            deleteText: '<i class="fa fa-times" aria-hidden="true"></i> Supprimer',
+            prefix: 'produit_set',
+            addCssClass: 'btn btn-info',
+            deleteCssClass: 'btn btn-danger'
+        });
+    </script>
+{% endblock %}

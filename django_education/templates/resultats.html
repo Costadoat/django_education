@@ -1,0 +1,261 @@
+{% extends "base1.html" %}
+
+{% load static %}
+
+
+{% block title %}Liste des séquences{% endblock %}
+{% block bodyId %}sequencePage{% endblock %}
+
+{% block titre_page %}Résultats {% if user.is_teacher %} de {% for etudiant_selected in chart.get_etudiant_note %} {{etudiant_selected.user__last_name}} {{etudiant_selected.user__first_name}} {% endfor %}{% endif %}{% endblock %}
+
+{% block content1 %}
+
+{% if user.is_teacher %}
+
+<select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref" id = "etudiant" onchange="location = this.value;">
+    {% for etudiant_selected in chart.get_etudiant_note %}
+        {% for etudiant in chart.get_etudiants %}
+            <option {%if etudiant.user == etudiant_selected.user %} selected {% endif %} value="/resultats/{{etudiant.user}}/">
+                {{ etudiant.user__last_name }} {{ etudiant.user__first_name}}
+            </option>
+        {% endfor %}
+</select>
+
+
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link  {% if general %}active{% endif %} " href="/resultats/{{etudiant_selected.user}}/">Général</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link  {% if details %}active{% endif %} " href="/resultats/{{etudiant_selected.user}}/details/">Détails</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link  {% if ds %}active{% endif %} " href="/resultats/{{etudiant_selected.user}}/ds/">DS</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link  {% if autoevaluation %}active{% endif %} " href="/resultats/{{etudiant_selected.user}}/autoevaluation/1/"> Auto évaluation </a>
+  </li>
+
+</ul>
+    {% endfor %}
+
+{% elif user.is_student %}
+
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link  {% if general %}active{% endif %} " href="/resultats/{{user.id}}/">Général</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link  {% if details %}active{% endif %} " href="/resultats/{{user.id}}/details/">Détails</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link  {% if ds %}active{% endif %} " href="/resultats/{{user.id}}/ds/">DS</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link  {% if autoevaluation %}active{% endif %} " href="/resultats/{{user.id}}/autoevaluation/1/">Auto évaluation</a>
+  </li>
+</ul>
+
+    {% endif %}
+
+      {% if details %}
+    <p> Résultats pour chaque compétences </p>
+
+                  {{ chart.as_html }}
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Id</th>
+      <th scope="col">Référence</th>
+      <th scope="col">Nom</th>
+      <th scope="col">Note</th>
+    </tr>
+  </thead>
+  <tbody>
+      {% for comp in chart.get_liste_comp %}
+      <tr onclick="window.location='/competence/{{comp.1}}/{{comp.0}}'" class="table-{{comp.5}}">
+      <th scope="row">{{comp.1}}-{{comp.0}}</th>
+      <td>{{comp.2}}</td>
+      <td>{{comp.3}}</td>
+      <td>{{comp.4|floatformat}}</td>
+    </tr>
+
+
+
+        {% endfor %}
+  </tbody>
+</table>
+
+      {% elif autoevaluation %}
+
+    <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectSeq" id = "sequence" onchange="location = this.value;">
+        {% for sequence in sequences %}
+            <option {%if sequence.id == sequence_selected %} selected {% endif %} value="/resultats/{{etudiant}}/autoevaluation/{{sequence.id}}/">
+                {{ sequence.numero }} {{ sequence.nom}}
+            </option>
+        {% endfor %}
+</select>
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Id</th>
+      <th scope="col">Réf</th>
+      <th scope="col">Nom</th>
+      <th scope="col">Description</th>
+      <th scope="col">Note</th>
+    </tr>
+  </thead>
+  <tbody>
+      {% for comp in competences %}
+    <tr >
+      <td onclick="window.location='/competence/{{comp.famille_id}}/{{comp.id}}'">{{comp.id}}</td>
+      <td onclick="window.location='/competence/{{comp.famille_id}}/{{comp.id}}'"> {{comp.reference}}</td>
+      <td onclick="window.location='/competence/{{comp.famille_id}}/{{comp.id}}'"> {{comp.nom}}</td>
+      <td onclick="window.location='/competence/{{comp.famille_id}}/{{comp.id}}'">{{comp.description}}</td>
+      <td>
+          {% if user.is_teacher %}
+          {{comp.note|stringformat:".1f"}}
+          {% elif user.is_student %}
+          <form id="form" method="post">{% csrf_token %}<input class="form-control" type="number" style="min-width:5em" id="note{{comp.id}}" name="note" value="{{comp.note|stringformat:".1f"}}" min="1" max="5"/></form></td>
+          {% endif %}
+    </tr>
+
+
+
+
+
+
+        {% endfor %}
+  </tbody>
+</table>
+
+
+
+      {% elif general %}
+<p> Résultats classés par familles de compétences </p>
+
+  <div class="row">
+    <div class="col">
+       <table class="table">
+                 <thead>
+                <tr>
+                  <th scope="col">Famille</th>
+                  <th scope="col">Moyenne</th>
+                  <th scope="col">Classe</th>
+                </tr>
+              </thead>
+                 <tbody>
+                 {% for label, eleve, classe in chart.get_notes_glob %}
+                <tr>
+                    <td>{{label}}</td>
+                    <td>{{eleve|floatformat}}</td>
+                    <td>{{classe|floatformat}}</td>
+                </tr>
+            {% endfor %}
+                </tbody>
+            </table>
+    </div>
+    <div class="col">
+      {{ chart.as_html }}
+    </div>
+  </div>
+        {% elif ds %}
+
+    <p> Résultats pour chaque DS </p>
+
+{% for ds in liste_ds %}
+<div class="card">
+     <div class="card-body">
+            <div class="container">
+                <div class="row">
+                        <div class="col-9">
+                            <h5 class="card-title">DS du {{ds.0.date|date:"d/m/y"|lower}}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">Moyenne: {{ds.0.moyenne|floatformat}}, Ecart-type: {{ds.0.ecart_type|floatformat}}, Ajustement:  {{ds.0.ajustement|floatformat}}</h6>
+                        </div>
+                        <div class="col">
+                             <h1 class="card-title">Note: {{ds.5.0}}</h1>
+                             <h6 class="card-subtitle mb-2 text-muted">Classement: {{ds.6}}</h6>
+                             <h6 class="card-subtitle mb-2 text-muted">Taux: {{ds.5.1}}</h6>
+                        </div>
+                </div>
+            </div>
+                <div class="table-responsive">
+                             <table class="table table-bordered">
+                                   <tbody>
+                                        <tr>
+                                            <td></td>
+                                            {% for i in ds.4 %}
+                                                <td colspan={{i.1}}, style="text-align:center">P{{i.0}} ({{i.2}}pts)</td>
+                                            {% endfor %}
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align:center">#</td>
+                                            {% for id in ds.2 %}
+                                                <td style="text-align:center">{{id}}</td>
+                                            {% endfor %}
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align:center">Coeff</td>
+                                            {% for coef in ds.3 %}
+                                                <td style="text-align:center">{{coef}}</td>
+                                            {% endfor %}
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align:center">Note</td>
+                                            {% for note in ds.1 %}
+                                                <td style="text-align:center">{{note}}</td>
+                                            {% endfor %}
+                                        </tr>
+                                    </tbody>
+                            </table>
+
+                    </div>
+
+      </div>
+</div>
+
+
+{% endfor %}
+</div>
+        {% endif %}
+
+
+
+
+
+{% if autoevaluation %}
+<script>
+{% for comp in competences %}
+    const note{{comp.id}} = document.getElementById('note{{comp.id}}');
+{% endfor %}
+
+const noteHandler = function(e) {
+    let formData = new FormData();
+    formData.append('comp',e.target.id);
+    formData.append('note',e.target.value);
+    // On récupère la valeur du jeton CSRF
+    const request = new Request('save/', {
+        method: 'POST',
+        body: formData
+    });
+
+    // On exécute la requête
+    fetch(request)
+        .then(response => response.json())
+        .then(result => {
+        e.target.value=result['value'];
+        })
+}
+{% for comp in competences %}
+    note{{comp.id}}.addEventListener('input', noteHandler);
+{% endfor %}
+
+
+</script>
+{% endif %}
+
+
+
+{% endblock %}

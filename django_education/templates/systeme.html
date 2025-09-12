@@ -1,0 +1,158 @@
+{% extends "base1.html" %}
+
+{% load static %}
+
+{% block title %}Système{% endblock %}
+{% block bodyId %}systemPage{% endblock %}
+
+{% block titre_page %}{{systeme.nom}}{{systeme.type_de_fichier}} <a href="{{systeme.url}}"><i class='fab fa-github'></i></a> {% endblock %}
+
+{%block content1 %}
+
+  </br>
+
+          <div align="right">
+            <a href="/systemes" ><button type="button" class="btn btn-primary"><i class="fas fa-angle-left"></i> Retour</button></a>
+         </div>
+  </br>
+
+
+<div class="card">
+  <div class="card-body">
+            <img class="rounded mx-auto d-block" src="{% static systeme.image.url %}" width="40%" alt="myimage" />
+      <p> <b>Description:</b> {{systeme.description}} </p>
+  </div>
+</div>
+
+{% if utilise %}
+ </br>
+
+<br class="row">
+<p>Ce système est utilisé dans la ressource suivante:</p>
+    <table class="table">
+      {% for cours in courss %}
+        <tr onclick="window.location='/si/{{cours.sequence.numero}}/'" class="table">
+              <td class="col-xs-1" style="text-align:center">Cours </td>
+              <td class="col-xs-5" style="text-align:center">{{cours}}</td>
+              <td class="five"> <a href="{{cours.url_pdf}}"><i class='fas far fa-file-pdf'></i></a></td>
+              <td class="five"> <a href="{{cours.url_prive}}"><i class='fas far fa-eye-slash'></i></a></td>
+              <td class="five"> <a href="{{cours.url_git}}"><i class='fab fa-github'></i></a></td>
+              <td class="five"> <a href="/si/{{cours.sequence.numero}}/">Sequence</i></a></td>
+        </tr>
+    {% endfor %}
+    {% for td in tds %}
+        <tr onclick="window.location='/si/{{td.sequence.numero}}/'" class="table">
+              <td class="col-xs-1" style="text-align:center">TD </td>
+              <td class="col-xs-5" style="text-align:center">{{td}}</td>
+              <td class="five"> <a href="{{td.url_pdf}}"><i class='fas far fa-file-pdf'></i></a></td>
+              <td class="five"> <a href="{{td.url_prive}}"><i class='fas far fa-eye-slash'></i></a></td>
+              <td class="five"> <a href="{{td.url_git}}"><i class='fab fa-github'></i></a></td>
+              <td class="five"> <a href="/si/{{td.sequence.numero}}/">Sequence</i></a></td>
+        </tr>
+    {% endfor %}
+    {% for ilot in ilots %}
+        <tr onclick="window.location='/si/{{ilot.tp.sequence.numero}}/'" class="table">
+              <td class="col-xs-1" style="text-align:center">TP</td>
+              <td class="col-xs-1" style="text-align:center">{{ilot.nom_tp}}</td>
+              <td class="five"> <a href="{{ilot.url_pdf}}"><i class='fas far fa-file-pdf'></i></a></td>
+              <td class="five"> <a href="{{ilot.url_prive}}"><i class='fas far fa-eye-slash'></i></a></td>
+              <td class="five"> <a href="{{ilot.url_git}}"><i class='fab fa-github'></i></a></td>
+              <td class="five"> <a href="/si/{{ilot.tp.sequence.numero}}/">Sequence</i></a></td>        </tr>
+    {% endfor %}
+    {% for khole in kholes %}
+        <tr onclick="window.location='/si/{{khole.sequence.numero}}/'" class="table">
+              <td class="col-xs-1" style="text-align:center">Khôle</td>
+              <td class="col-xs-1" style="text-align:center">{{khole}}</td>
+              <td class="five"> <a href="{{khole.url_pdf}}"><i class='fas far fa-file-pdf'></i></a></td>
+              <td class="five"> <a href="{{khole.url_prive}}"><i class='fas far fa-eye-slash'></i></a></td>
+              <td class="five"> <a href="{{khole.url_git}}"><i class='fab fa-github'></i></a></td>
+              <td class="five"> <a href="/si/{{khole.sequence.numero}}/">Sequence</i></a></td>
+        </tr>
+    {% endfor %}
+    {% for ds in dss %}
+        <tr onclick="window.location='/si/annales_ds'" class="table">
+              <td class="col-xs-1" style="text-align:center">DS</td>
+              <td class="col-xs-1" style="text-align:center">{{ds}}</td>
+              <td class="five"> <a href="{{ds.url_pdf}}"><i class='fas far fa-file-pdf'></i></a></td>
+              <td class="five"> <a href="{{ds.url_prive}}"><i class='fas far fa-eye-slash'></i></a></td>
+              <td class="five"> <a href="{{ds.url_git}}"><i class='fab fa-github'></i></a></td>
+        </tr>
+    {% endfor %}
+ </table>
+ </br>
+{% endif %}
+
+
+
+{% if exist_parametre %}
+<br class="row">
+<p>Paramètres du système:</p>
+    <table class="table">
+      {% for parametre in parametres %}
+        <tr onclick="window.location=''" class="table">
+              <td class="col-xs-1" style="text-align:center">{{parametre.grandeur.nom|safe}}</td>
+              <td class="col-xs-5" style="text-align:center">{{parametre.valeur}}</td>
+              <td class="col-xs-1" style="text-align:center">{{parametre.grandeur.unite|safe}}</td>
+        </tr>
+    {% endfor %}
+</table>
+ </br>
+{% endif %}
+
+
+{% if exist_fichier %}
+
+
+<br class="row">
+<p>Fichiers liés au système:</p>
+    <table class="table">
+      {% for fichier in fichiers %}
+        <tr onclick="window.location='{{fichier.url_fichier}}' "class="table">
+            <td class="ten"> <a href="{{fichier.url_fichier}}"><img height="50" src="{% static fichier.type_de_fichier.icone %}"></a></td>
+            <td class="ninety" style="text-align:center" > <a href="{{fichier.url_fichier}}"> {{fichier.nom}}</td>
+        </tr>
+    {% endfor %}
+</table>
+ </br>
+{% endif %}
+
+{% if systeme.sysml %}
+<br class="row">
+<p>Modèle Sysml:</p>
+    <table class="table">
+        <tr onclick="window.location='sysml' "class="table">
+            <td class="ten"> <a href="sysml"><img height="50" src="{% static 'img/sysml.png' %}"></a></td>
+            <td class="ninety" style="text-align:center" > <a href="sysml"> Diagrammes SysMl</td>
+        </tr>
+</table>
+ </br>
+{% endif %}
+
+{% if exist_image %}
+
+<br class="row">
+<p>Ressources visuelles du système:</p>
+      {% for image in images %}
+
+    {% if image.type_image_systeme.extension == "mp4" %}
+        <br>
+        {{image.nom}}
+        <div class="embed-responsive embed-responsive-16by9">
+            <video controls  src="{{image.url_image}}" class="img-fluid" alt="Responsive image">image.nom</video>
+        </div>
+
+    {% else %}
+        {{image.type_image_systeme}}
+        <div class="text-center">
+            <img src="{{image.url_image}}?sanitize=true" class="img-fluid" alt="Responsive image">
+        </div>
+    {% endif %}
+    {% endfor %}
+ </br>
+
+{% endif %}
+
+    <!-- /.row -->
+</div>
+
+{% endblock %}

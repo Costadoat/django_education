@@ -1,0 +1,16 @@
+MANIFEST.in
+README.md
+setup.py
+django_pandocfield.egg-info/PKG-INFO
+django_pandocfield.egg-info/SOURCES.txt
+django_pandocfield.egg-info/dependency_links.txt
+django_pandocfield.egg-info/requires.txt
+django_pandocfield.egg-info/top_level.txt
+pandocfield/__init__.py
+pandocfield/apps.py
+pandocfield/fields.py
+pandocfield/tests.py
+pandocfield/utils.py
+pandocfield/widgets.py
+pandocfield/migrations/__init__.py
+pandocfield/templates/pandocfield/widget.html

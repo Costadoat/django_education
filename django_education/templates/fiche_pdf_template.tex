@@ -1,0 +1,132 @@
+% Paquets généraux
+\documentclass[a4paper,12pt,titlepage]{article}
+\usepackage{graphicx}
+{% graphicspath %}
+\usepackage{eso-pic}
+
+%\usepackage[T1]{fontenc}
+%\usepackage[utf8]{inputenc}
+%\usepackage[french]{babel}
+%\usepackage[gen]{eurosym}
+\usepackage{fancyhdr}
+%\usepackage{hyperref}
+\usepackage{fancybox}
+
+\newcommand{\auteurun}{ {{Utilisateur.user.last_name}} {{Utilisateur.user.first_name}} }
+\newcommand{\institute}{Lycée Dorian}
+
+\usepackage[most]{tcolorbox}
+%\definecolor{lightgreen}{rgb}{0.56, 0.93, 0.56}
+%\definecolor{moonstoneblue}{rgb}{0.45, 0.66, 0.76}
+\usepackage{color}
+%\usepackage{xcolor}
+%\usepackage{colortbl}
+%\usepackage{helvet}
+%\renewcommand{\familydefault}{\sfdefault}
+%\usepackage{amsfonts}
+%\usepackage{amsmath}
+%\usepackage{varioref}
+%\usepackage{tabularx}
+%\usepackage{textcomp}
+%\usepackage{tikz}
+%\usepackage{gensymb}
+%\usepackage{etoolbox}
+
+\definecolor{text-white bg-secondary}{HTML}{989898}
+\definecolor{text-white bg-primary}{rgb}{0.59,0.69,0.84}
+\definecolor{text-white bg-danger}{RGB}{255,188,204}
+\definecolor{text-white bg-dark}{HTML}{636363}
+\definecolor{bg-light}{HTML}{EEEEEE}
+\definecolor{text-white bg-warning}{rgb}{0.90,0.42,0.15}
+\definecolor{text-white bg-success}{rgb}{0.13,0.54,0.13}
+
+%\hypersetup{                    % parametrage des hyperliens
+%    colorlinks=true,                % colorise les liens
+%    breaklinks=true,                % permet les retours à la ligne pour les liens trop longs
+%    urlcolor= blfr,                 % couleur des hyperliens
+%    linkcolor= orange,                % couleur des liens internes aux documents (index, figures, tableaux, equations,...)
+%    citecolor= forestgreen                % couleur des liens vers les references bibliographiques
+%    }
+
+% Mise en page
+\pagestyle{fancy}
+
+\setlength{\hoffset}{-18pt}
+
+\setlength{\oddsidemargin}{0pt} 	% Marge gauche sur pages impaires
+\setlength{\evensidemargin}{0pt} 	% Marge gauche sur pages paires
+\setlength{\marginparwidth}{00pt} 	% Largeur de note dans la marge
+\setlength{\headwidth}{481pt} 	 	% Largeur de la zone de tête (17cm)
+\setlength{\textwidth}{481pt} 	 	% Largeur de la zone de texte (17cm)
+\setlength{\voffset}{-18pt} 		% Bon pour DOS
+\setlength{\marginparsep}{7pt}	 	% Séparation de la marge
+\setlength{\topmargin}{-30pt} 		% Pas de marge en haut
+\setlength{\headheight}{35pt} 		% Haut de page
+\setlength{\headsep}{20pt} 		% Entre le haut de page et le texte
+\setlength{\footskip}{30pt} 		% Bas de page + séparation
+\setlength{\textheight}{700pt} 		% Hauteur de l'icone zone de texte (25cm)
+%\setlength\fboxrule{1 pt}
+\renewcommand{\baselinestretch}{1}
+
+\newcommand{\BackgroundPicdeux}{
+\put(25,-30){
+\parbox[b][\paperheight]{\paperwidth}{
+\vfill
+\begin{center}
+\includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio]{fond4}
+\end{center}
+\vfill
+}}}
+
+% En tête et pied de page
+\fancypagestyle{normal}{
+\lhead{Fiche de lecture: {{Fiche.nom_court()}} }
+\rhead{\includegraphics[width=1cm]{LogoRenb}}
+\lfoot{\auteurun}
+\cfoot{Page \thepage}
+}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\begin{document}
+\pagestyle{normal}
+\begin{center}\huge{ {{Fiche.nom_court()}} }\end{center}
+
+\AddToShipoutPicture{\BackgroundPicdeux}
+
+{% for item in Items %}
+\begin{tcolorbox}[
+    enhanced,
+    attach boxed title to top left={xshift=6mm,yshift=-3mm},
+    colback={{item.0.couleur}}!20,
+    colframe={{item.0.couleur}},
+    colbacktitle={{item.0.couleur}},
+    title=Question {{item.0.numero}},
+    fonttitle=\bfseries\color{black},
+    boxed title style={size=small,colframe={{item.0.couleur}},sharp corners},
+    sharp corners,
+]
+    ~\
+
+{{ item.0.question}}
+          {% if item.0.image %}
+     \begin{center}
+        \includegraphics[width=0.8\linewidth]{../{{item.0.image}}}
+     \end{center}
+      {% endif %}
+
+\end{tcolorbox}
+
+{% if Utilisateur.user.is_student %}
+        {{item.1.reponse}}
+    {% elif Utilisateur.user.is_teacher %}
+    {% if prof_etudiant %}
+        {{item.1.reponse}}
+    {%else%}
+        {{item.0.reponse}}
+    {% endif %}
+    {% endif %}
+~\
+
+{% endfor %}
+
+\end{document}

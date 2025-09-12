@@ -1,0 +1,52 @@
+{% extends "base1.html" %}
+{% block title %}Liste des séquences{% endblock %}
+{% block bodyId %}sequencePage{% endblock %}
+
+{% block titre_page %}
+{%if si %}
+    Sciences de l'Ingénieur
+{%else%}
+    Informatique
+{%endif%}
+{% endblock %}
+
+{%block content1%}
+
+{%if si %}
+
+ <!-- Marketing Icons Section -->
+    <div class="row">
+
+    <table id="sequences" class="table table-striped sequences">
+            {% for sequence in sequences %}
+                <tr>
+                    <td class="five">{{sequence.str_numero}}</td>
+                    <td class="ninety"> <a href="/si/{{sequence.numero}}/" %}">{{sequence.nom}}</a></td>
+                    <td class="five"> <a href="/si/{{sequence.numero}}/" %}"><i class='fas fa-angle-right'></i></a></td>
+                </tr>
+            {% endfor %}
+            </table>
+    </div>
+
+    <!-- /.row -->
+
+{%else%}
+
+ <!-- Marketing Icons Section -->
+    <div class="row">
+
+        <table id="sequences" class="table table-striped sequences">
+            {% for sequence in sequences %}
+                <tr>
+                    <td class="five">{{sequence.str_numero}}</td>
+                    <td class="ninety"> <a href="/info/{{sequence.numero}}/" %}">{{sequence.nom}}</a></td>
+                    <td class="five"> <a href="/info/{{sequence.numero}}/" %}"><i class='fas fa-angle-right'></i></a></td>
+                </tr>
+            {% endfor %}
+            </table>
+    </div>
+    <!-- /.row -->
+
+{% endif %}
+
+{% endblock %}

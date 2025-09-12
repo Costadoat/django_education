@@ -1,0 +1,39 @@
+{% extends "base1.html" %}
+{% block title %}Liste des fiches{% endblock %}
+{% block bodyId %}fichesPage{% endblock %}
+
+{% block titre_page %}
+Liste des fiches
+{% endblock %}
+
+{%block content1%}
+
+ <!-- Marketing Icons Section -->
+    <div class="row">
+
+    <table id="fiches" class="table table-striped table-bordered fiches">
+        <tr>
+            <th>Eleve</th>
+            {% for fiche in Eleves.0.1 %}
+            <th class="rotate">
+                <a href="/si/{{fiche.0.ressource.sequence.numero}}/{{fiche.0.ressource.numero}}/fiche_ressource/">
+                        {{fiche.0.reference }}</a>
+                </th>
+            {% endfor %}
+        </tr>
+            {% for eleve in Eleves %}
+                <tr>
+                    <td>{{eleve.0}}</td>
+                    {% for fiche in eleve.1 %}
+                    <td>{% if fiche.1 and not fiche.2%}<a href="/si/{{eleve.0.user.id}}/{{fiche.1.0.item_synthese.fiche_synthese.ressource.sequence.numero}}/{{fiche.1.0.item_synthese.fiche_synthese.ressource.numero}}/fiche_ressource/">
+                        <i class='far fa-file-alt'></i></a>{%else%}x{%endif%}</td>
+                    {% endfor %}
+
+                </tr>
+            {% endfor %}
+            </table>
+    </div>
+
+    <!-- /.row -->
+
+{% endblock %}

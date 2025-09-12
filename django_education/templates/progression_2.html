@@ -1,0 +1,63 @@
+{% extends "base1.html" %}
+{% block title %}Liste des séquences{% endblock %}
+{% block bodyId %}sequencePage{% endblock %}
+
+{% block titre_page %}
+Progression en  Sciences de l'Ingénieur
+{% endblock %}
+
+{%block content1%}
+
+ <!-- Marketing Icons Section -->
+    <div class="row">
+
+    <table id="sequences" class="table table-striped responsive sequences">
+                <tr>
+                    <th style="width: 2%;text-align:center;"> #</td>
+                    <th style="width: 17%;text-align:center;"> Date</td>
+                    <th style="width: 27%;text-align:center;"> Cours </td>
+                    <th style="width: 27%;text-align:center;"> TD </td>
+                    <th style="width: 27%;text-align:center;"> TP </td>
+                </tr>
+            {% for semaine in semaines %}
+            	{% if semaine.3 %}
+                <tr>
+                    <td style="width: 2%;text-align:center;" bgcolor="{{semaine.2}}"> {{semaine.0}}</td>
+                    <td style="width: 17%;text-align:center;"> {{semaine.1}}</td>
+                    {% for type_de_ressource in semaine.3 %}
+                    {{ type}}
+	                    <td style="width: 27%;"> 
+    	                {% for data in type_de_ressource %}
+    	                 {% if data.ressource.ilot %}
+        		            <a href="/si/{{data.ressource.sequence.numero}}">{{data.ressource}}</a>
+        		           {% else %}
+        		            <a href="{{data.ressource.url_pdf}}">{{data.ressource}}</a>
+        		          {% endif %}
+        		        {% endfor %}
+        		        </td>
+                    {% endfor %}
+                </tr>
+
+                {% elif semaine.4 %}
+            	
+                <tr>
+                    <td style="width: 2%;text-align:center;" bgcolor="{{semaine.2}}"> {{semaine.0}}</td>
+                    <td style="width: 17%;text-align:center;"> {{semaine.1}}</td>
+                    <td colspan="3" style="text-align:center;"> Vacances scolaires</td>
+                </tr>
+                {% elif semaine.5 %}
+            	
+                <tr>
+                    <td style="width: 2%;text-align:center;" bgcolor="{{semaine.2}}"> {{semaine.0}}</td>
+                    <td style="width: 17%;text-align:center;"> {{semaine.1}}</td>
+                    <td colspan="3" style="text-align:center;"> Concours blanc</td>
+                </tr>
+
+                {% endif %}
+            {% endfor %}
+            </table>
+    </div>
+
+    <!-- /.row -->
+
+{% endblock %}

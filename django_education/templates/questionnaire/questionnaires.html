@@ -1,0 +1,59 @@
+{% extends "base1.html" %}
+{% load tz %}
+{% block title %}{{quiz.title}}{% endblock %}
+{% block bodyId %}sequencePage{% endblock %}
+
+{% block titre_page %}{{quiz.title}}{% endblock %}
+
+{% block content1 %}
+
+
+<h1> Liste des questionnaires </h1>
+
+<br>
+
+
+<a href="/questionnaires/new"><button type="button" class="btn btn-primary"> Nouveau </button></a>
+
+<br><br>
+
+<table class="table table-bordered">
+  {%for job in object_list%}
+  <tr><td><a href="/questionnaires/{{job.id}}">{{job.quiz}}</a></td><td>{{job.tous_eleves}}</td><td>{{job.datetime}}</td>
+    <td><a href="/questionnaires/{{job.id}}/edit"><i class="fas fa-pen"></i></a> &nbsp;&nbsp;
+      <a href="/questionnaires/{{job.id}}/delete"><i class="fas fa-trash"></i></a></td></tr>
+  {%endfor%}
+</table>
+
+<h1>Questionnaires de la classe</h1>
+
+<table class="table table-bordered">
+  {%for day in all_jobs%}
+  {%if day.1.8h %}
+    <tr><td style='text-align:center; vertical-align:middle' colspan = "4">   {{day.0|date}} (8h) </td></tr>
+    {%for job in day.1.8h%}
+      <tr><td><a href="/questionnaires/{{job.id}}">{{job.quiz}}</a></td><td>{{job.tous_eleves}}</td><td>{{job.created_at|timezone:"Europe/Paris" }}</td>
+    <td><a href="/questionnaires/{{job.id}}/edit"><i class="fas fa-pen"></i></a> &nbsp;&nbsp;
+      <a href="/questionnaires/{{job.id}}/delete"><i class="fas fa-trash"></i></a></td></tr>
+    {%endfor%}
+  {%endif%}
+  {%if day.1.10h30 %}
+    <tr><td style='text-align:center; vertical-align:middle' colspan = "4">   {{day.0|date}} (10h30) </td></tr>
+    {%for job in day.1.10h30%}
+      <tr><td><a href="/questionnaires/{{job.id}}">{{job.quiz}}</a></td><td>{{job.tous_eleves}}</td><td>{{job.created_at|timezone:"Europe/Paris" }}</td>
+    <td><a href="/questionnaires/{{job.id}}/edit"><i class="fas fa-pen"></i></a> &nbsp;&nbsp;
+      <a href="/questionnaires/{{job.id}}/delete"><i class="fas fa-trash"></i></a></td></tr>
+    {%endfor%}
+  {%endif%}
+  {%if day.1.autre %}
+    <tr><td style='text-align:center; vertical-align:middle' colspan = "4">   {{day.0|date}} (Autre) </td></tr>
+    {%for job in day.1.autre%}
+      <tr><td><a href="/questionnaires/{{job.id}}">{{job.quiz}}</a></td><td>{{job.tous_eleves}}</td><td>{{job.created_at|timezone:"Europe/Paris" }}</td>
+    <td><a href="/questionnaires/{{job.id}}/edit"><i class="fas fa-pen"></i></a> &nbsp;&nbsp;
+      <a href="/questionnaires/{{job.id}}/delete"><i class="fas fa-trash"></i></a></td></tr>
+    {%endfor%}
+  {%endif%}
+  {%endfor%}
+</table>
+
+{% endblock %}

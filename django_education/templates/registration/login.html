@@ -1,0 +1,51 @@
+{% extends "base1.html" %}
+
+{%load static %}
+
+
+{% block titre_page %}  {% endblock %}
+
+{% block content1 %}
+
+{% if form.errors %}
+<p>Votre nom d'utilisateur ou mot de passe ne correspondent pas. Merci de réessayer.</p>
+{% endif %}
+
+{% if next %}
+    {% if user.is_authenticated %}
+    <p>Votre compte n'a pas accès à cette page. Merci de se logger avec un compte adapté.</p>
+    {% else %}
+    <p>Se logger pour accéder à cette page.</p>
+    {% endif %}
+{% endif %}
+
+<div class="wrapper fadeInDown">
+  <div id="formContent">
+    <!-- Tabs Titles -->
+
+    <!-- Icon -->
+    <div class="fadeIn first">
+      <img src="{% static 'img/male-user.svg' %}" id="icon" alt="User Icon" height="100" width="100" />
+    </div>
+
+    <!-- Login Form -->
+    <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+      <input type="text" name="username" class="fadeIn second" placeholder="Login" autofocus maxlength="254" required id="id_username" />
+      <input type="password" class="fadeIn third" placeholder="Mot de passe" name="password" required id="id_password" />
+
+      <input type="submit" class="fadeIn fourth" value="login">
+      <input type="hidden" name="next" value="{{ next }}">
+    </form>
+
+    <!-- Remind Passowrd -->
+    <div id="formFooter">
+        <a class="underlineHover"  href="{% url 'password_reset' %}">Mot de passe oublié ? </a>
+    </div>
+
+  </div>
+</div>
+
+{# Assumes you setup the password_reset view in your URLconf #}
+
+{% endblock %}

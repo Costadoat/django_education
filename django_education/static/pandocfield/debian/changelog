@@ -1,0 +1,43 @@
+python3-django-pandocfield (0.2.5) stable; urgency=medium
+
+  * Removed the reference to MathJax obsoleted CDN
+
+ -- Jaap Joris Vens <jj@rtts.eu>  Wed, 26 Jul 2017 11:34:35 +0200
+
+python3-django-pandocfield (0.2.4) stable; urgency=medium
+
+  * Whitelisted the <iframe> tag so Youtube videos can be embedded
+
+ -- Jaap Joris Vens <jj@rtts.eu>  Wed, 07 Sep 2016 14:08:26 +0200
+
+python3-django-pandocfield (0.2.3) stable; urgency=medium
+
+  * Included missing MANIFEST.in
+
+ -- Jaap Joris Vens <jj@rtts.eu>  Tue, 16 Aug 2016 16:20:41 +0200
+
+python3-django-pandocfield (0.2.2) stable; urgency=medium
+
+  * Fixed Python2 incompatibility
+  * Fixed Django 1.7 incompatibility
+
+ -- Jaap Joris Vens <jj@rtts.eu>  Tue, 16 Aug 2016 14:18:04 +0200
+
+python3-django-pandocfield (0.2.1) stable; urgency=medium
+
+  * Bugfix to prevent log spamming
+  * CSS tweak of editor widget
+
+ -- Jaap Joris Vens <jj@rtts.eu>  Tue, 09 Aug 2016 11:45:27 +0200
+
+python3-django-pandocfield (0.2) stable; urgency=medium
+
+  * Improved the looks of the editor widget
+
+ -- Jaap Joris Vens <jj@rtts.eu>  Wed, 03 Aug 2016 16:01:07 +0200
+
+python3-django-pandocfield (0.1) stable; urgency=medium
+
+  * Initial release.
+
+ -- Jaap Joris Vens <jj@rtts.eu>  Thu, 26 May 2016 15:06:26 +0200

@@ -1,0 +1,341 @@
+{% extends "base1.html" %}
+
+{% load static %}
+
+{% block title %}Tracer Bode {% endblock %}
+{% block bodyId %}traceBode{% endblock %}
+
+{% block titre_page %} Tracer Bode {% endblock %}
+
+{%block content1 %}
+
+<div class="container-fluid">
+     <div class="row">
+          <div style="width: 800px;height: 300px"><canvas id="canvas1"></canvas></div>
+          <div style="width: 800px;height: 300px"><canvas id="canvas2"></canvas></div>
+
+         <h1>Paramétrage du tracé:</h1>
+        {% for radio in radios%}
+         <label>{{radio.name}}:</label>
+            {% for choice in radio.choices %}
+         <div class="form-check">
+        <input class="form-check-input" type="radio" name="function" value="{{choice.id}}" id="{{radio.id}}_{{choice.id}}" onchange="hide_sliders();" checked>
+        <label class="form-check-label" for="{{radio.id}}_{{choice.id}}">
+          {{choice.name}}
+        </label>
+      </div>
+         {% endfor %}
+         {% endfor %}
+     <br>
+     {% for slider in sliders%}
+    <div id="div{{slider.name}}">
+     <label>{{slider.label}}</label><input type="text" id="val{{slider.name}}" />
+
+    <input type="text" id="{{slider.name}}" />
+    </div>
+         {% endfor %}
+     <br>
+         {% for checkbox in checkboxes %}
+           <div id="div{{checkbox.id}}">
+            <input type="checkbox" id="status{{checkbox.id}}" name="{{checkbox.id}}"
+                   onclick="DoCheckUncheckDisplay(this,'{{checkbox.id}}-checked','{{checkbox.id}}-unchecked')" style="margin:0;"/>
+            <label for="{{checkbox.id}}">{{checkbox.name}}</label>
+          </div>
+                  <div id="{{checkbox.id}}-checked" style="display:none;">
+                    {% for param in defaults_param %}
+                      {{param.name}}={{param.val}}
+                      {%endfor %}
+                  </div>
+
+                  <div id="{{checkbox.id}}-unchecked" style="display:none;">
+                      Réponse cachée.
+                  </div>
+         {% endfor %}
+
+
+    <br>
+    {% for label in labels %}
+     <div id="div{{label.id}}">
+     <input id="fileInput" type="file" name="file" />
+     <br>
+     <h2>{{label.name}}</h2>
+     <p>Ecart simulé/réel = <span id="{{label.id}}">   </span>.
+     <br>
+     <p><span id="prolonged"></span></p>
+     </div>
+    {% endfor %}
+</div>
+
+</div>
+
+<script>
+
+function trace(res) {
+    dataArrmod = [];
+    dataArrpha = [];
+    for(var idcourbe=0; idcourbe<res.length; idcourbe++){
+    dataArrtmpmod =
+    {
+      "label": res[idcourbe]['label'],
+      "fill": false,
+      "data": res[idcourbe]['module'],
+      "borderColor": res[idcourbe]['borderColor'],
+      "backgroundColor": res[idcourbe]['backgroundColor']
+    };
+    dataArrtmppha =
+    {
+      "label": res[idcourbe]['label'],
+      "fill": false,
+      "data": res[idcourbe]['phase'],
+      "borderColor": res[idcourbe]['borderColor'],
+      "backgroundColor": res[idcourbe]['backgroundColor']
+    };
+    dataArrmod.push(dataArrtmpmod);
+    dataArrpha.push(dataArrtmppha);
+    console.log(dataArrmod);
+    }
+    const config1 = {
+        type: 'scatter',
+        data: {datasets: dataArrmod},
+        options: {
+            maintainAspectRatio: false,
+            aspectRatio: 0.8,
+            responsive: true,
+            elements: {point:{radius:0},line:{}},
+            title: {display: true, text: 'Courbe de Gain (dB)'},
+            scales: {
+            xAxes: [{type: "linear",
+                    scaleLabel: {display: true,labelString: 'Pulsation (rad/s)'},
+                    ticks: {maxRotation: 45,minRotation: 45,callback: function(value, index, ticks) {
+                        return 10**(value);}}
+            }],
+            yAxes: [{type: "linear",
+                    scaleLabel: {display: true,labelString: 'Donnée'},
+            }]
+            }
+    }};
+    const config2 = {
+        type: 'scatter',
+        data: {datasets: dataArrpha},
+        options: {
+            maintainAspectRatio: false,
+            aspectRatio: 0.8,
+            responsive: true,
+            elements: {point:{radius:0},line:{}},
+            title: {display: true, text: 'Courbe de Phase (°)'},
+            scales: {
+            xAxes: [{type: "linear",
+                    scaleLabel: {display: true,labelString: 'Pulsation (rad/s)'},
+                    ticks: {maxRotation: 45,minRotation: 45,callback: function(value, index, ticks) {
+                        return 10**(value);}}
+            }],
+            yAxes: [{type: "linear",
+                    scaleLabel: {display: true,labelString: 'Angle (°)'},
+            }]
+            }
+    }};
+     if(window.myLine!=null){
+        window.myLine.destroy();
+    }
+    var ctx1 = document.getElementById('canvas1').getContext('2d');
+    window.myLine = new Chart(ctx1, config1);
+    var ctx2 = document.getElementById('canvas2').getContext('2d');
+    window.myLine = new Chart(ctx2, config2);
+}
+dataexp = [];
+
+function handleFileSelect(event) {
+    const input = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = function (e) {
+        const text = e.target.result;
+        const rows = text.split('\n');
+        const headers = rows[0].split(';');
+        dataexp = rows.slice(1).map(row => {
+            const values = row.split(';');
+            const obj = {};
+            headers.forEach((header, index) => {
+                obj[header] = values[index];
+                });
+            return obj;
+            });
+        calcul();
+    };
+    reader.readAsText(input);
+}
+
+{% for slider in sliders%}
+var mySlider{{slider.name}} = new rSlider({
+        target: '{{slider.target}}',
+        values: {{slider.val}},
+        //step: {{slider.step}},
+        range: false,
+        tooltip: true,
+        scale: true,
+        labels: false,
+        set: {{slider.set}},
+        onChange: function (vals) {
+                        calcul();
+                       document.getElementById('val{{slider.name}}').value=vals;
+
+                    }
+    });
+   const inputHandler{{slider.name}} = function(e) {
+        mySlider{{slider.name}}.setValues(parseFloat(e.target.value));
+   }
+   const source{{slider.name}} = document.getElementById('val{{slider.name}}');
+   const div{{slider.name}} = document.getElementById('div{{slider.name}}');
+   source{{slider.name}}.addEventListener('input', inputHandler{{slider.name}});
+   source{{slider.name}}.addEventListener('propertychange', inputHandler{{slider.name}});
+{% endfor %}
+{% for radio in radios%}
+    {% for choice in radio.choices%}
+    const source{{radio.id}}_{{choice.id}} = document.getElementById('{{radio.id}}_{{choice.id}}');
+    {% endfor %}
+{% endfor %}
+{% for checkbox in checkboxes%}
+   const div{{checkbox.id}} = document.getElementById('div{{checkbox.id}}');
+   const div{{checkbox.id}}checked = document.getElementById('{{checkbox.id}}-checked');
+   const div{{checkbox.id}}unchecked = document.getElementById('{{checkbox.id}}-unchecked');
+{% endfor %}
+{% for label in labels%}
+   const div{{label.id}} = document.getElementById('div{{label.id}}');
+{% endfor %}
+    hide_sliders();
+   document.getElementById('fileInput').addEventListener('change', handleFileSelect);
+   document.getElementById('fileInput').addEventListener('input', handleFileSelect);
+
+function DoCheckUncheckDisplay(d,dchecked,dunchecked)
+{
+   if( d.checked == true )
+   {
+      document.getElementById(dchecked).style.display = "block";
+      document.getElementById(dunchecked).style.display = "none";
+   }
+   else
+   {
+      document.getElementById(dchecked).style.display = "none";
+      document.getElementById(dunchecked).style.display = "block";
+   }
+}
+
+function hide_sliders(){
+    {% for radio in radios %}
+        {% for choice in radio.choices %}
+            if (source{{radio.id}}_{{choice.id}}.checked)
+            {
+                {% for slider in sliders%}
+                    div{{slider.name}}.style.display = "none";
+                    {% for case in slider.active_with %}
+                        if ('{{radio.id}}_{{choice.id}}'=='{{case}}')
+                        {
+                        div{{slider.name}}.style.display = "block";
+                        }
+                    {% endfor %}
+                {% endfor %}
+                {% for checkbox in checkboxes%}
+                    div{{checkbox.id}}.style.display = "none";
+                    {% for case in checkbox.active_with %}
+                        if ('{{radio.id}}_{{choice.id}}'=='{{case}}')
+                        {
+                        div{{checkbox.id}}.style.display = "block";
+                        }
+                    {% endfor %}
+                {% endfor %}
+                {% for label in labels%}
+                    div{{label.id}}.style.display = "none";
+                    {% for case in label.active_with %}
+                        if ('{{radio.id}}_{{choice.id}}'=='{{case}}')
+                        {
+                        div{{label.id}}.style.display = "block";
+                        }
+                    {% endfor %}
+                {% endfor %}
+            }
+        {% endfor %}
+    {% endfor %}
+    calcul();
+}
+
+function form_data(data_in){
+        var data_out = [];
+        for(var i=0; i<data_in.length; i++) {
+            data_out.push({
+                x: data_in[i]['x'],
+                y: data_in[i]['y']
+            });
+        }
+        return data_out;
+}
+function calcul(){
+    let formData = new FormData();
+    formData.append('app',{{app}});
+    {% for slider in sliders%}
+    formData.append('{{slider.name}}', document.querySelector("#{{slider.name}}").value);
+    {% endfor %}
+    {% for param in defaults_param%}
+    formData.append('{{param.id}}', '{{param.val}}');
+    {% endfor %}
+    {% for radio in radios%}
+        {% for choice in radio.choices%}
+            formData.append('source{{radio.id}}_{{choice.id}}', source{{radio.id}}_{{choice.id}}.checked);
+        {% endfor %}
+    {% endfor %}
+
+    // On récupère la valeur du jeton CSRF
+    const request = new Request('/compute/{{app}}/', {
+        method: 'POST',
+        body: formData
+    });
+
+    // On exécute la requête
+    fetch(request)
+        .then(response => response.json())
+        .then(result => {
+        var datatrace=[]
+        var datatrace1 = {};
+        datatrace1['label']='Tracé théorique';
+        datatrace1['borderColor']='#181fe6';
+        datatrace1['backgroundColor']='#181fe6';
+        datatrace1['module']=form_data(result["module"]);
+        datatrace1['phase']=form_data(result["phase"]);
+        console.log('coucou');
+        console.log(result["module"]);
+        datatrace.push(datatrace1);
+        if (dataexp.length >0) {
+        var datatrace2 = {};
+        datatrace2['label']='Données csv';
+        datatrace2['borderColor']='#d0073e';
+        datatrace2['backgroundColor']='#d0073e';
+        datatrace2['module'],datatrace2['phase']=form_data(dataexp);
+        datatrace.push(datatrace2);
+        }
+
+        trace(datatrace);
+        })
+}
+
+//create a user-defined function to download CSV file
+function download_csv_file() {
+
+    //define the heading for each row of the data
+    var csv = 'temps;Simulé;Réel\n';
+
+    //merge the data with CSV
+    dataexp.forEach(function(row) {
+            csv += row.join(';');
+            csv += "\n";
+    });
+
+    var hiddenElement = document.createElement('a');
+    hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
+    hiddenElement.target = '_blank';
+
+    //provide the name for the CSV file to be downloaded
+    hiddenElement.download = 'export.csv';
+    hiddenElement.click();
+}
+
+</script>
+
+{% endblock %}

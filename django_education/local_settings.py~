@@ -1,0 +1,27 @@
+### local_settings.py
+### environment-specific settings
+### example with a development environment
+
+# Database
+# https://docs.djangoproject.com/en/1.11/ref/settings/#databases
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'OPTIONS': {'sql_mode': 'traditional',},
+            'NAME': 'django_education',
+        'USER': 'django',
+        'PASSWORD': 'd40;B64!p17',
+        'HOST': 'www.costadoat.fr',
+        'PORT': '3307',
+    }
+}
+
+DEFAULT_FROM_EMAIL='admin@costadoat.fr'
+
+EMAIL_HOST = 'smtp.free.fr'
+EMAIL_PORT = 587
+EMAIL_HOST_USER ='costadoat@free.fr'
+EMAIL_HOST_PASSWORD = "8;:FZS4ZL@!bzoYr"
+
+ALLOWED_HOSTS = ['127.0.0.1','192.168.0.16','78.192.222.66','www.costadoat.fr','costadoat.fr']

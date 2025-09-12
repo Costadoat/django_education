@@ -1,0 +1,32 @@
+{% extends "base1.html" %}
+{% block title %}Compétence {% endblock %}
+{% block bodyId %}sequencePage{% endblock %}
+
+{% block titre_page %} {{famille.nom}} {% endblock %}
+
+{%block content1 %}
+
+<div class="card">
+  <div class="card-body">
+      <p> Description: {{famille.description}} </p>
+  </div>
+</div>
+
+  </br>
+
+          <div align="right">
+            <a href="/competences" ><button type="button" class="btn btn-primary"><i class="fas fa-angle-left"></i> Retour</button></a>
+         </div>
+  </br>
+              <table id="sequences" class="table table-striped">
+                {% for competence in competences %}
+                <tr>
+                    <td>{{sequence.str_numero}}</td><td> <a href="/competence/{{competence.famille.id}}/{{competence.id}}" %}">{{competence.reference}} - {{competence.nom}}</a></td>
+                    <td> <a href="/competence/{{competence.famille.id}}/{{competence.id}}" %}"><i class='fas fa-angle-right'></i></a></td>
+                </tr>
+            {% endfor %}
+            </table>
+
+    <!-- /.row -->
+
+{% endblock %}

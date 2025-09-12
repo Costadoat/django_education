@@ -1,0 +1,47 @@
+{% extends "base1.html" %}
+
+{% load static %}
+
+{% block title %}Liste des systèmes{% endblock %}
+{% block bodyId %}systemsPage{% endblock %}
+
+{% block titre_page %}Systèmes{% endblock %}
+
+{%block content1 %}
+
+
+<form class="form-inline responsive" method="get">
+  <div class="form-group">
+    <label for="nom">Nom</label>
+{{ filter.form.nom }}
+  </div>
+
+  <div class="form-group">
+    <label for="typefichier">Type de ressource&nbsp;</label>
+    {{ filter.form.fichier_systeme__type_de_fichier__id }}
+  </div>&nbsp;
+  <button type="submit" class="form-group btn btn-primary mb-2">Rechercher</button>
+</form>
+
+
+<div class="table-container">
+<div class="table-cell-container center">
+    <table class="table">
+      <body>
+      {% for systeme in filter.qs %}
+        <tr onclick="window.location='/systeme/{{systeme.id}}'" class="table">
+            <th class="col-xs-1" style="text-align:left"><a href="/systeme/{{systeme.id}}">{{systeme.nom}}{{systeme.fichier_systeme}}</a></th>
+              <td class="col-xs-3" style="text-align:center"><img src="{% static systeme.image.url %}" height="100" alt="myimage" /></td>
+        </tr>
+
+    {% endfor %}
+
+      </body>
+</table>
+
+</div>
+</div>
+
+<!-- /.row -->
+
+{% endblock %}

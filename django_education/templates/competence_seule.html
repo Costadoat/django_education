@@ -1,0 +1,138 @@
+{% extends "base1.html" %}
+
+{% block title %}Compétence {% endblock %}
+{% block bodyId %}sequencePage{% endblock %}
+
+{% block titre_page %} {{famille.nom}} {% endblock %}
+
+{%block content1 %}
+
+ <div align="right">
+        <a href="/competence/{{famille.id}}/" ><button type="button" class="btn btn-primary"><i class="fas fa-angle-left"></i> Retour</button></a>
+    </div>
+    <!-- Marketing Icons Section -->
+
+          <br />
+
+ <div class="card">
+  <div class="card-body">
+       <h2> {{competence.reference}} - {{competence.nom}} </h2>
+
+          <br />
+
+      <p>{{competence.description}}</p>
+</div></div>
+
+    <br />
+
+    {% if chart%}
+
+    <p>Historique des notes pour la compétence {{competence.reference}}</p>
+
+        {{ chart.as_html }}
+
+    {% endif %}
+
+      <div class="row">
+
+
+
+
+            {% if courss %}
+            <h3 class="my-4"> Cours </h3>
+            {% endif %}
+          <table id="cours" class="table">
+
+               {% for cours in courss %}
+                  <tr>
+                    <td>{{cours.str_numero}}</td>
+                      <td> {{cours.nom}}</td>
+                        <td> <a href="{{cours.url_pdf}}"><i class='fas far fa-file-pdf'></i></a></td>
+                          <td> <a href="{{cours.url_prive}}"><i class='fas far fa-file-archive'></i></a></td>
+                            <td> <a href="{{cours.url_git}}"><i class='fab fa-github'></i></a></td>
+                </tr>
+                {% endfor %}
+           </table>
+          {% if tds %}
+          <h3 class="my-4"> Travaux Dirigés </h3>
+           {% endif %}
+          <table id="td" class="table">
+               {% for td in tds %}
+                  <tr>
+                    <td>{{td}}</td>
+                      <td> {{td.nom}}</td>
+                        <td> <a href="{{td.url_pdf}}"><i class='fas far fa-file-pdf'></i></a></td>
+                          <td> <a href="{{td.url_prive}}"><i class='fas far fa-file-archive'></i></a></td>
+                            <td> <a href="{{td.url_git}}"><i class='fab fa-github'></i></a></td>
+                </tr>
+                {% endfor %}
+           </table>
+                {% if tps %}
+                    <h3 class="my-4"> Travaux Pratiques </h3>
+
+          <table id="tp" class="table">
+               {% for tp in tps %}
+                  <tr>
+                     <td>{{tp}}</td>
+                     <td> {{tp.nom}}</td>
+                  </tr>
+                     {% for ilot in tp.ilots %}
+                        <tr>
+                            <td></td>
+                            <td><small>{{ilot.nom_court}}</small></td>
+                            <td> <a href="{{ilot.url_pdf}}"><i class='fas far fa-file-pdf'></i></a></td>
+                            <td> <a href="{{ilot.url_prive}}"><i class='fas far fa-file-archive'></i></a></td>
+                            <td> <a href="{{ilot.url_git}}"><i class='fab fa-github'></i></a></td>
+                        </tr>
+                        {% endfor %}
+               {% endfor %}
+          {% endif %}
+
+           </table>
+
+          {% if kholes %}
+            <h3 class="my-4"> Kholes </h3>
+            {% endif %}
+
+          <table id="khole" class="table">
+               {% for khole in kholes %}
+                  <tr>
+                    <td>{{khole.str_numero}}</td>
+                      <td> {{khole.nom}}</td>
+                        <td> <a href="{{khole.url_pdf}}"><i class='fas far fa-file-pdf'></i></a></td>
+                          <td> <a href="{{khole.url_prive}}"><i class='fas far fa-file-archive'></i></a></td>
+                            <td> <a href="{{khole.url_git}}"><i class='fab fa-github'></i></a></td>
+                </tr>
+                {% endfor %}
+
+           </table>
+
+          {% if dss %}
+            <h3 class="my-4"> DS </h3>
+            {% endif %}
+
+          <table id="ds" class="table">
+                  <tr>
+                      <th>Date</th>
+                      <th>Système support</th>
+                      <th>Questions</th>
+                      <th colspan="3">Ressources</th>
+                </tr>
+               {% for ds in dss %}
+                  <tr>
+                    <td>{{ds.0.date|date:'d/m/Y'}}</td>
+                       <td>{{ds.0.support.systeme}}</td>
+                      <td> {{ds.1}}</td>
+                        <td> <a href="{{ds.0.url_ds_pdf}}"><i class='fas far fa-file-pdf'></i></a></td>
+                          <td> <a href="{{ds.0.url_ds_prive}}"><i class='fas far fa-file-archive'></i></a></td>
+                            <td> <a href="{{ds.0.url_ds_git}}"><i class='fab fa-github'></i></a></td>
+                </tr>
+                {% endfor %}
+
+           </table>
+
+
+      </div>
+    <!-- /.row -->
+
+{% endblock %}

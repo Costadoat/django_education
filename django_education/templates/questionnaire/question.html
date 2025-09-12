@@ -1,0 +1,84 @@
+{% extends "base1.html" %}
+{% block title %}{{quiz.title}}{% endblock %}
+{% block bodyId %}sequencePage{% endblock %}
+{% load static %}
+{% block titre_page %}{{quiz.title}}{% endblock %}
+
+{% block content1 %}
+
+<h1>{{work.question.quiz}} </h1>
+
+<!-- {{work.question.num}}.{{work.question.order_item}} <br>-->
+
+<h3>{{work.question.texte}} </h3>
+
+<p> {{work.question.explication}} </p>
+
+{%if work.question.figure %}
+ <img src="{% static work.question.figure %}" width="500" > <br>
+{% endif %}
+
+
+
+<form id="question" method="post" enctype="multipart/form-data">
+{% csrf_token %}
+
+    <table class="table table-bordered">
+    {{ form.as_table }}
+</table>
+
+    {%if work.image %}
+<div class="text-center">
+ <img src="{% static work.image %}" width="500" class="img-fluid rounded" alt="Responsive image"> <br>
+</div>
+{% endif %}
+    
+    {% if previous_item %}
+     <input type="submit" class="btn btn-primary" value="Previous" name="button"/>
+    {% endif %}
+    <input type="submit" class="btn btn-primary" value="Save" name="button"/>
+    {% if next_item %}
+     <input type="submit" class="btn btn-primary" value="Next" name="button"/>
+    {% endif %}
+    <input type="button" class="btn btn-primary" onclick="location.href = '/questionnaires/{{work.job.id}}';" value="Retour"/>
+
+</form>
+
+
+<script>
+function checkFile(e) {
+
+    /// get list of files
+    var file_list = e.target.files;
+
+    /// go through the list of files
+    for (var i = 0, file; file = file_list[i]; i++) {
+
+        var sFileName = file.name;
+        var sFileExtension = sFileName.split('.')[sFileName.split('.').length - 1].toLowerCase();
+        var iFileSize = file.size;
+        var iConvert = (file.size / 1048576).toFixed(2);
+
+        /// OR together the accepted extensions and NOT it. Then OR the size cond.
+        /// It's easier to see this way, but just a suggestion - no requirement.
+        if (!(sFileExtension === "jpg" ||
+              sFileExtension === "png" ||
+              sFileExtension === "jpeg") || iFileSize > 2097152) { /// 2 mb
+            txt = "File type : " + sFileExtension + "\n\n";
+            txt += "Size: " + iConvert + " MB \n\n";
+            txt += "Vérifier que votre image est au format jpg/jpeg/png et qu'elle fait moins de 2 MB.\nUtiliser une application afin de la redimensionner au besoin.\n";
+            alert(txt);
+        }
+    }
+}
+var inputElement = document.getElementById("id_image");
+
+inputElement.onchange = function(event) {
+  checkFile(event);
+}
+</script>
+
+
+
+
+{% endblock %}

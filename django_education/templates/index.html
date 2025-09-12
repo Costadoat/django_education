@@ -1,0 +1,124 @@
+{% extends 'base1.html' %}
+
+{% load static %}
+
+{% block carousel %}
+   <header>
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+      <ol class="carousel-indicators">
+        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+      </ol>
+      <div class="carousel-inner" role="listbox">
+        <!-- Slide One - Set the background image for this slide in the line below -->
+        <div class="carousel-item active" style="background-image: url('{% static "img/Slide1.jp2" %}')">
+          <div class="carousel-caption d-none d-md-block">
+            <h3>Sciences de l'Ingénieur en CPGE</h3>
+            <p>Ressources pour l'étude des SI en CPGE</p>
+          </div>
+        </div>
+        <!-- Slide Two - Set the background image for this slide in the line below -->
+        <div class="carousel-item" style="background-image: url('{% static "img/Slide2.jp2" %}')">
+          <div class="carousel-caption d-none d-md-block">
+            <h3>La PTSI/PT du Lycée Dorian (75011)</h3>
+            <p>Infos et actualités sur le <a href="https://www.lycee-dorian.fr/">site</a> du lycée</p>
+          </div>
+        </div>
+        <!-- Slide Three - Set the background image for this slide in the line below -->
+        <div class="carousel-item" style="background-image: url('{% static "img/Slide3.jp2" %}')">
+          <div class="carousel-caption d-none d-md-block">
+            <h3>L'organisation par compétences</h3>
+            <p>Ce site propose les ressources par compétences et permet leur évaluation.</p>
+          </div>
+        </div>
+      </div>
+      <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div>
+  </header>
+
+{% endblock %}
+
+{% block titre_page %}Bienvenue {% if user %}{{user.first_name}}{% endif %} {% endblock %}
+
+{% block content1 %}
+<!-- Page Content -->
+
+    <!-- Marketing Icons Section -->
+    <div class="row">
+        <div class="col-lg-4 mb-4">
+            <div class="card h-100">
+                <h4 class="card-header">Ressources SI et Info</h4>
+                <div class="card-body">
+                    <p class="card-text">Des ressources sont disponibles pour le programmme de SI et d'informatique pour la classe de PTSI.</p>
+                </div>
+                <div class="card-footer">
+                    <a href="/si" class="btn btn-primary">SI</a>  <a href="/info" class="btn btn-primary">Informatique</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 mb-4">
+            <div class="card h-100">
+                <h4 class="card-header">GitHub</h4>
+                <div class="card-body">
+                    <p class="card-text">Les sources <span class="latex">L<sup>A</sup>T<sub>E</sub>X</span> des ressources sont disponibles sur mon compte GitHub..</p>
+                </div>
+                <div class="card-footer">
+                    <a href="https://github.com/Costadoat" class="btn btn-primary">En savoir plus</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 mb-4">
+            <div class="card h-100">
+                <h4 class="card-header">Creative Commons CC0</h4>
+                <div class="card-body">
+                    <p class="card-text">Les ressources de ce site sont sous licence Creative Commons (CC0). Cette licence permet aux autres de distribuer, remixer, arranger, et adapter votre œuvre, même à des fins commerciales. </p>
+                </div>
+                <div class="card-footer">
+                    <a href="https://fr.wikipedia.org/wiki/Licence_CC0" class="btn btn-primary">En savoir plus</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.row -->
+
+    <!-- Features Section -->
+    <div class="row">
+        <div class="col-lg-6">
+            <h2>Gestion des compétences</h2>
+            <p>Plusieurs moyens sont mis en oeuvre pour travailler par compétences :</p>
+            <ul>
+                <li>Classement des ressources par compétences</li>
+                <li><strong>Evaluation</strong> des compétences par famille</li>
+                <li><strong>Evaluation</strong> détaillé des compétences</li>
+            </ul>
+            <p>Il est important de détecter et de travailler plus spécifiquement ses points faibles.</p>
+        </div>
+        <div class="col-lg-6">
+            <img class="img-fluid rounded" src="{% static 'img/eval_competence.jp2' %}" alt="">
+        </div>
+    </div>
+    <!-- /.row -->
+
+    <hr>
+
+    <!-- Call to Action Section -->
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <p> En cas de question ou pour apprendre à utiliser ce site, ne pas hésiter à utiliser le formulaire de contact. </p>
+        </div>
+        <div class="col-md-4">
+            <a class="btn btn-lg btn-secondary btn-block" href="/contact">Contact</a>
+        </div>
+    </div>
+
+<!-- /.container -->
+
+{% endblock %}

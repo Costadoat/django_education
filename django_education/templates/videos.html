@@ -1,0 +1,31 @@
+{% extends "base1.html" %}
+{% block title %}Vidéos de la séquence{% endblock %}
+{% block bodyId %}sequencevideosPage{% endblock %}
+
+
+{% block titre_page %} Vidéos pour {{type_page}} {% endblock %}
+
+
+{% block content1 %}
+
+    <div align="right">
+        <a href="/si/{{sequence.numero}}/" ><button type="button" class="btn btn-primary"><i class="fas fa-angle-left"></i> Retour</button></a>
+    </div>
+
+
+
+
+<div class="container">
+    {% for video in videos %}
+    <h4> {{video.nom}} </h4>
+    <div class="row">
+        <div class="col-md-12">
+            <video controls style='float:left;height:200px; margin-right:10px;' src="{{video.url}}">video.nom</video>
+            <p> {{video.description}} </p>
+        </div>
+    </div>
+    <br>
+    {% endfor %}
+</div>
+
+{% endblock %}

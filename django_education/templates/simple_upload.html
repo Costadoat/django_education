@@ -1,0 +1,16 @@
+{% extends 'base1.html' %}
+
+{% block content1 %}
+
+{%if done %}
+C'est bon!
+{% else %}
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="myfile">
+    <input type="submit" name="upload_eleves" value="Upload Eleves" />
+    <input type="submit" name="upload_ds" value="Upload DS" />
+  </form>
+
+{% endif %}
+{% endblock %}

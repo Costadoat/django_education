@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% load static %}
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="{% static 'img/favicon.ico' %}" />
+
+
+    <title>PTSI/PT Dorian {% block title %}Bienvenue{% endblock %}</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+      <!-- Custom fonts for this template -->
+    <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
+    <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.0/css/all.css' integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ' crossorigin='anonymous'>
+    <!-- Custom styles for this template -->
+    <link href="{% static "css/modern-business.css" %}" rel="stylesheet">
+    <link href="{% static "css/costadoat_education.css" %}" rel="stylesheet">
+
+    <!-- Popperjs -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp" crossorigin="anonymous"></script>
+    <!-- Tempus Dominus JavaScript -->
+    <script href="{% static "js/django_education.js" %}"></script>
+  <link rel="stylesheet" href="{% static 'css/graph.css' %}">
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Réponse temporelle</title>
+	<script src="https://www.chartjs.org/dist/2.9.3/Chart.js"></script>
+          <link rel="stylesheet" href="{% static 'css/rSlider.min.css' %}">
+        <script src="{% static 'js/rSlider.min.js' %}"></script>
+
+
+</head>
+
+<body id="{%block bodyId %}genericPage{% endblock %}">
+
+
+ <!-- Navigation -->
+  <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="/">
+            <img src="{% static 'img/LogoRenb.svg' %}" alt="" height="42" width="42"></a>
+      <a class="navbar-brand" href="/">PTSI-PT Lycée Dorian</a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
+           <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle dropbtn" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Sciences Ingénieur
+            </a>
+            <div class="dropdown-menu dropdown-menu-right dropdown-content" aria-labelledby="navbarDropdownPortfolio">
+              <a class="dropdown-item" href="/si/">Ressources</a>
+              <a class="dropdown-item" href="/competences">Compétences</a>
+              <a class="dropdown-item" href="/systemes/">Systèmes</a>
+              <a class="dropdown-item" href="/si/ds/">DS</a>
+              <a class="dropdown-item" href="https://github.com/Costadoat/Sciences-Ingenieur/tree/master/DC">DC</a>
+              <a class="dropdown-item" href="/si/progression/">Progression</a>
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle dropbtn" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Informatique
+            </a>
+            <div class="dropdown-menu dropdown-menu-right dropdown-content" aria-labelledby="navbarDropdownPortfolio">
+              <a class="dropdown-item" href="/info/">Ressources</a>
+              <a class="dropdown-item" href="https://github.com/Costadoat/Informatique/tree/master/DS">DS</a>
+            </div>
+          </li>
+          {% if user.is_student %}
+               <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle dropbtn" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  {{ user.last_name }} {{ user.first_name }}
+                </a>
+                <div class="dropdown-menu dropdown-menu-right dropdown-content" aria-labelledby="navbarDropdownPortfolio">
+                  <a class="dropdown-item" href="/password-change/">Mot de passe</a>
+                  <a class="dropdown-item" href="/mes_fiches_ressource/">Mes fiches</a>
+                  <a class="dropdown-item" href="/q">Mes quizzes</a>
+                  <a class="dropdown-item" href="/questionnaires/">Mes questionnaires</a>
+                  <a class="dropdown-item" href="/mes_resultats_quizz/">Résultats de mes quizzes</a>
+                  <a class="dropdown-item" href="/resultats/{{user.id}}/">Résultats des DS</a>
+                  <a class="dropdown-item" href="/accounts/logout">Déconnection</a>
+                </div>
+              </li>
+                  {% elif user.is_teacher %}
+               <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle dropbtn" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  {{ user.last_name }} {{ user.first_name }}
+                </a>
+                <div class="dropdown-menu dropdown-menu-right dropdown-content" aria-labelledby="navbarDropdownPortfolio">
+                  <a class="dropdown-item" href="/password-change/">Mot de passe</a>
+                  <a class="dropdown-item" href="/resultats_quizz">Résultats quizzes</a>
+                  <a class="dropdown-item" href="/mes_fiches_ressource/">Fiches élèves</a>
+                  <a class="dropdown-item" href="/questionnaires/">Mes questionnaires</a>
+                  <a class="dropdown-item" href="/mes_resultats_quizz/">Résultats de mes quizzes</a>
+                  <a class="dropdown-item" href="/resultats/">Résultats ds</a>
+                  <a class="dropdown-item" href="/fiche_suivi/">Fiches de suivi</a>
+                  <a class="dropdown-item" href="/upload_eleves/">Upload élèves</a>
+                  <a class="dropdown-item" href="/accounts/logout">Déconnection</a>
+                </div>
+              </li>
+
+                  {% else %}
+              <li class="nav-item">
+                  <a class="nav-link" href="/accounts/login"> <i class="fas fa-user"></i> Login</a>
+              </li>
+                {% endif %}
+          <li class="nav-item">
+            <a class="nav-link" href="/contact/">Contact</a>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+            {% block carousel %}{% endblock %}
+
+      <div class="container">
+
+    <h1 class="my-4">{% block titre_page %}Quizz{% endblock %}</h1>
+            {% block content1 %}{% endblock %}
+
+       </div>
+
+
+ <!-- Footer -->
+   <footer class="py-5 bg-light">
+    <div class="container">
+      <p class="m-0 text-center text-black">Copyright &copy; Renaud Costadoat 2019</p>
+    </div>
+    <!-- /.container -->
+  </footer>
+
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.bundle.min.js"></script> 
+<script type="text/javascript" src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+</body>
+
+</html>

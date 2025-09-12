@@ -1,0 +1,14 @@
+{% extends 'base1.html' %}
+
+{% load static %}
+
+{% block titre_page %}Bienvenue {{user.first_name}}{% endblock %}
+
+
+{% block content1 %}
+
+      <div class="quizz">
+            {% block content %}{% endblock %}
+       </div>
+
+{% endblock %}

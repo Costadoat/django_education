@@ -1,0 +1,1436 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/static/img/favicon.ico" />
+
+
+    <title>PTSI/PT Dorian Liste des séquences</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+      <!-- Custom fonts for this template -->
+    <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
+    <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.0/css/all.css' integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ' crossorigin='anonymous'>
+    <!-- Custom styles for this template -->
+    <link href="/static/css/modern-business.css" rel="stylesheet">
+    <link href="/static/css/costadoat_education.css" rel="stylesheet">
+
+    <!-- Popperjs -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp" crossorigin="anonymous"></script>
+    <!-- Tempus Dominus JavaScript -->
+    <script href="/static/js/django_education.js"></script>
+  <link rel="stylesheet" href="/static/css/graph.css">
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Réponse temporelle</title>
+	<script src="https://www.chartjs.org/dist/2.9.3/Chart.js"></script>
+          <link rel="stylesheet" href="/static/css/rSlider.min.css">
+        <script src="/static/js/rSlider.min.js"></script>
+
+
+</head>
+
+<body id="sequencePage">
+
+
+ <!-- Navigation -->
+  <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="/">
+            <img src="/static/img/LogoRenb.svg" alt="" height="42" width="42"></a>
+      <a class="navbar-brand" href="/">PTSI-PT Lycée Dorian</a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
+           <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle dropbtn" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Sciences Ingénieur
+            </a>
+            <div class="dropdown-menu dropdown-menu-right dropdown-content" aria-labelledby="navbarDropdownPortfolio">
+              <a class="dropdown-item" href="/si/">Ressources</a>
+              <a class="dropdown-item" href="/competences">Compétences</a>
+              <a class="dropdown-item" href="/systemes/">Systèmes</a>
+              <a class="dropdown-item" href="/si/ds/">DS</a>
+              <a class="dropdown-item" href="/si/progression/">Progression</a>
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle dropbtn" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Informatique
+            </a>
+            <div class="dropdown-menu dropdown-menu-right dropdown-content" aria-labelledby="navbarDropdownPortfolio">
+              <a class="dropdown-item" href="/info/">Ressources</a>
+              <a class="dropdown-item" href="https://github.com/Costadoat/Informatique/tree/master/DS">DS</a>
+            </div>
+          </li>
+
+              <li class="nav-item">
+                  <a class="nav-link" href="/accounts/login"> <i class="fas fa-user"></i> Login</a>
+              </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/contact/">Contact</a>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+
+
+      <div class="container">
+
+    <h1 class="my-4">
+Progression en  Sciences de l'Ingénieur
+</h1>
+
+
+ <!-- Marketing Icons Section -->
+    <div class="row">
+
+    <table id="sequences" class="table table-striped responsive sequences">
+                <tr>
+                    <th style="width: 2%;text-align:center;"> #</td>
+                    <th style="width: 17%;text-align:center;"> Date</td>
+                    <th style="width: 27%;text-align:center;"> Cours </td>
+                    <th style="width: 27%;text-align:center;"> TD </td>
+                    <th style="width: 27%;text-align:center;"> TP </td>
+                </tr>
+
+
+                <tr>
+                    <td style="width: 2%;text-align:center;" bgcolor="#cccdcd"> 1</td>
+                    <td style="width: 17%;text-align:center;"> 4 septembre 2023</td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S01 Analyse fonctionnelle/C01 Le système et le produit/01-C01.pdf">S01-C01 Le système et le produit</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S01 Analyse fonctionnelle/TD01 Etude d&#x27;un produit et d&#x27;un processus/01-TD01.pdf">S01-TD01 Etude d&#x27;un produit et d&#x27;un processus</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="/si/1">S01-TP01 Modélisation linéaire</a>
+
+
+        		        </td>
+
+                </tr>
+
+
+
+
+                <tr>
+                    <td style="width: 2%;text-align:center;" bgcolor="#cccdcd"> 2</td>
+                    <td style="width: 17%;text-align:center;"> 11 septembre 2023</td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S01 Analyse fonctionnelle/C02 Chaines d&#x27;énergie et d&#x27;information/01-C02.pdf">S01-C02 Chaines d&#x27;énergie et d&#x27;information</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S01 Analyse fonctionnelle/TD02 Etude structurelle/01-TD02.pdf">S01-TD02 Etude structurelle</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="/si/1">S01-TP02 Analyse fonctionnelle</a>
+
+
+        		        </td>
+
+                </tr>
+
+
+
+
+                <tr>
+                    <td style="width: 2%;text-align:center;" bgcolor="#cccdcd"> 3</td>
+                    <td style="width: 17%;text-align:center;"> 18 septembre 2023</td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S09 Conception/C01 Dessin industriel/09-C01.pdf">S09-C01 Dessin industriel</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S09 Conception/TD01 Introduction au dessin/09-TD01.pdf">S09-TD01 Introduction au dessin</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="/si/1">S01-TP02 Analyse fonctionnelle</a>
+
+
+        		        </td>
+
+                </tr>
+
+
+
+
+                <tr>
+                    <td style="width: 2%;text-align:center;" bgcolor="#cccdcd"> 4</td>
+                    <td style="width: 17%;text-align:center;"> 25 septembre 2023</td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S02 Systèmes Linéaires Continus Invariants/C01 Présentation des SLCI/02-C01.pdf">S02-C01 Présentation des SLCI</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S02 Systèmes Linéaires Continus Invariants/TD01 Présentation des SLCI/02-TD01.pdf">S02-TD01 Présentation des SLCI</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="/si/2">S02-TP01 Identification des SLCI</a>
+
+
+        		        </td>
+
+                </tr>
+
+
+
+
+                <tr>
+                    <td style="width: 2%;text-align:center;" bgcolor="#cccdcd"> 5</td>
+                    <td style="width: 17%;text-align:center;"> 2 octobre 2023</td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S02 Systèmes Linéaires Continus Invariants/C02 Structure des SLCI/02-C02.pdf">S02-C02 Structure des SLCI</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S02 Systèmes Linéaires Continus Invariants/TD02 Structure des SLCI/02-TD02.pdf">S02-TD02 Structure des SLCI</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="/si/2">S02-TP01 Identification des SLCI</a>
+
+
+        		        </td>
+
+                </tr>
+
+
+
+
+                <tr>
+                    <td style="width: 2%;text-align:center;" bgcolor="#cccdcd"> 6</td>
+                    <td style="width: 17%;text-align:center;"> 9 octobre 2023</td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S02 Systèmes Linéaires Continus Invariants/C03 Etude harmonique des SLCI/02-C03.pdf">S02-C03 Etude harmonique des SLCI</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S02 Systèmes Linéaires Continus Invariants/TD03 Etude harmonique des SLCI/02-TD03.pdf">S02-TD03 Etude harmonique des SLCI</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="/si/2">S02-TP02 Structure des SLCI</a>
+
+
+        		        </td>
+
+                </tr>
+
+
+
+
+                <tr>
+                    <td style="width: 2%;text-align:center;" bgcolor="#cccdcd"> 7</td>
+                    <td style="width: 17%;text-align:center;"> 16 octobre 2023</td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S03 Cinématique du point/C01 Géométrie pour la mécanique/03-C01.pdf">S03-C01 Géométrie pour la mécanique</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S03 Cinématique du point/TD01 Modélisation géométrique/03-TD01.pdf">S03-TD01 Modélisation géométrique</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="/si/2">S02-TP02 Structure des SLCI</a>
+
+
+        		        </td>
+
+                </tr>
+
+
+
+
+
+                <tr>
+                    <td style="width: 2%;text-align:center;" bgcolor="#cccdcd"> 8</td>
+                    <td style="width: 17%;text-align:center;"> 23 octobre 2023</td>
+                    <td colspan="3" style="text-align:center;"> Vacances scolaires</td>
+                </tr>
+
+
+
+
+                <tr>
+                    <td style="width: 2%;text-align:center;" bgcolor="#cccdcd"> 9</td>
+                    <td style="width: 17%;text-align:center;"> 30 octobre 2023</td>
+                    <td colspan="3" style="text-align:center;"> Vacances scolaires</td>
+                </tr>
+
+
+
+                <tr>
+                    <td style="width: 2%;text-align:center;" bgcolor="#cccdcd"> 10</td>
+                    <td style="width: 17%;text-align:center;"> 6 novembre 2023</td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S03 Cinématique du point/C02 Cinématique du point/03-C02.pdf">S03-C02 Cinématique du point</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S03 Cinématique du point/TD02 Cinématique du point/03-TD02.pdf">S03-TD02 Cinématique du point</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="/si/2">S02-TP03 Etude harmonique des SLCI</a>
+
+
+        		        </td>
+
+                </tr>
+
+
+
+
+                <tr>
+                    <td style="width: 2%;text-align:center;" bgcolor="#cccdcd"> 11</td>
+                    <td style="width: 17%;text-align:center;"> 13 novembre 2023</td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S03 Cinématique du point/C02 Cinématique du point/03-C02.pdf">S03-C02 Cinématique du point</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S03 Cinématique du point/TD03 Lois d&#x27;entrée sortie/03-TD03.pdf">S03-TD03 Lois d&#x27;entrée sortie</a>
+
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S03 Cinématique du point/TD04 La cinématique des mécanismes/03-TD04.pdf">S03-TD04 La cinématique des mécanismes</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="/si/3">S03-TP01 Géométrie pour la mécanique</a>
+
+
+        		        </td>
+
+                </tr>
+
+
+
+
+                <tr>
+                    <td style="width: 2%;text-align:center;" bgcolor="#cccdcd"> 12</td>
+                    <td style="width: 17%;text-align:center;"> 20 novembre 2023</td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S03 Cinématique du point/C03 Engrenages/03-C03.pdf">S03-C03 Engrenages</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S03 Cinématique du point/TD05 Engrenages/03-TD05.pdf">S03-TD05 Engrenages</a>
+
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S09 Conception/TD02 Conception chapeau d&#x27;assemblage/09-TD02.pdf">S09-TD02 Conception chapeau d&#x27;assemblage</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="/si/3">S03-TP02 La cinématique des mécanismes</a>
+
+
+        		        </td>
+
+                </tr>
+
+
+
+
+                <tr>
+                    <td style="width: 2%;text-align:center;" bgcolor="#cccdcd"> 13</td>
+                    <td style="width: 17%;text-align:center;"> 27 novembre 2023</td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S09 Conception/C02 Encastrement par vis/09-C02.pdf">S09-C02 Encastrement par vis</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S04 Liaisons entre les solides/TD01 Modélisation cinématique des liaisons/04-TD01.pdf">S04-TD01 Modélisation cinématique des liaisons</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="/si/3">S03-TP02 La cinématique des mécanismes</a>
+
+
+        		        </td>
+
+                </tr>
+
+
+
+
+                <tr>
+                    <td style="width: 2%;text-align:center;" bgcolor="#cccdcd"> 14</td>
+                    <td style="width: 17%;text-align:center;"> 4 décembre 2023</td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S04 Liaisons entre les solides/C01 Les liaisons mécaniques/04-C01.pdf">S04-C01 Les liaisons mécaniques</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S04 Liaisons entre les solides/TD02 Liaisons équivalentes/04-TD02.pdf">S04-TD02 Liaisons équivalentes</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="/si/4">S04-TP01 Liaisons mécaniques</a>
+
+
+        		        </td>
+
+                </tr>
+
+
+
+
+                <tr>
+                    <td style="width: 2%;text-align:center;" bgcolor="#cccdcd"> 15</td>
+                    <td style="width: 17%;text-align:center;"> 11 décembre 2023</td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S04 Liaisons entre les solides/C02 Théorie des mécanismes/04-C02.pdf">S04-C02 Théorie des mécanismes</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S04 Liaisons entre les solides/TD03 Calculs d&#x27;hyperstatisme/04-TD03.pdf">S04-TD03 Calculs d&#x27;hyperstatisme</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="/si/4">S04-TP01 Liaisons mécaniques</a>
+
+
+        		        </td>
+
+                </tr>
+
+
+
+
+
+                <tr>
+                    <td style="width: 2%;text-align:center;" bgcolor=""> 16</td>
+                    <td style="width: 17%;text-align:center;"> 18 décembre 2023</td>
+                    <td colspan="3" style="text-align:center;"> Concours blanc</td>
+                </tr>
+
+
+
+
+
+                <tr>
+                    <td style="width: 2%;text-align:center;" bgcolor=""> 17</td>
+                    <td style="width: 17%;text-align:center;"> 25 décembre 2023</td>
+                    <td colspan="3" style="text-align:center;"> Vacances scolaires</td>
+                </tr>
+
+
+
+
+                <tr>
+                    <td style="width: 2%;text-align:center;" bgcolor=""> 18</td>
+                    <td style="width: 17%;text-align:center;"> 1 janvier 2024</td>
+                    <td colspan="3" style="text-align:center;"> Vacances scolaires</td>
+                </tr>
+
+
+
+                <tr>
+                    <td style="width: 2%;text-align:center;" bgcolor=""> 19</td>
+                    <td style="width: 17%;text-align:center;"> 8 janvier 2024</td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S04 Liaisons entre les solides/C02 Théorie des mécanismes/04-C02.pdf">S04-C02 Théorie des mécanismes</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S05 Principe Fondamental de la Statique/TD01 Statique analytique/05-TD01.pdf">S05-TD01 Statique analytique</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="/si/4">S04-TP02 Théorie des mécanismes</a>
+
+
+        		        </td>
+
+                </tr>
+
+
+
+
+                <tr>
+                    <td style="width: 2%;text-align:center;" bgcolor=""> 20</td>
+                    <td style="width: 17%;text-align:center;"> 15 janvier 2024</td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S05 Principe Fondamental de la Statique/C01 Efforts mécaniques/05-C01.pdf">S05-C01 Efforts mécaniques</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S05 Principe Fondamental de la Statique/TD02 Statique graphique/05-TD02.pdf">S05-TD02 Statique graphique</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="/si/4">S04-TP02 Théorie des mécanismes</a>
+
+
+        		        </td>
+
+                </tr>
+
+
+
+
+                <tr>
+                    <td style="width: 2%;text-align:center;" bgcolor=""> 21</td>
+                    <td style="width: 17%;text-align:center;"> 22 janvier 2024</td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S05 Principe Fondamental de la Statique/C01 Efforts mécaniques/05-C01.pdf">S05-C01 Efforts mécaniques</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S05 Principe Fondamental de la Statique/TD03 Lois de Coulomb/05-TD03.pdf">S05-TD03 Lois de Coulomb</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="/si/5">S05-TP01 Les efforts mécaniques</a>
+
+
+        		        </td>
+
+                </tr>
+
+
+
+
+                <tr>
+                    <td style="width: 2%;text-align:center;" bgcolor=""> 22</td>
+                    <td style="width: 17%;text-align:center;"> 29 janvier 2024</td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S05 Principe Fondamental de la Statique/C02 Lois de Coulomb/05-C02.pdf">S05-C02 Lois de Coulomb</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S09 Conception/TD03 Conception flasque vérin/09-TD03.pdf">S09-TD03 Conception flasque vérin</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="/si/5">S05-TP01 Les efforts mécaniques</a>
+
+
+        		        </td>
+
+                </tr>
+
+
+
+
+                <tr>
+                    <td style="width: 2%;text-align:center;" bgcolor=""> 23</td>
+                    <td style="width: 17%;text-align:center;"> 5 février 2024</td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S09 Conception/C04 Liaison pivot/09-C04.pdf">S09-C04 Liaison pivot</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S09 Conception/TD05 Liaison pivot/09-TD05.pdf">S09-TD05 Liaison pivot</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="/si/5">S05-TP02 Statique graphique</a>
+
+
+        		        </td>
+
+                </tr>
+
+
+
+
+
+                <tr>
+                    <td style="width: 2%;text-align:center;" bgcolor=""> 24</td>
+                    <td style="width: 17%;text-align:center;"> 12 février 2024</td>
+                    <td colspan="3" style="text-align:center;"> Vacances scolaires</td>
+                </tr>
+
+
+
+
+                <tr>
+                    <td style="width: 2%;text-align:center;" bgcolor=""> 25</td>
+                    <td style="width: 17%;text-align:center;"> 19 février 2024</td>
+                    <td colspan="3" style="text-align:center;"> Vacances scolaires</td>
+                </tr>
+
+
+
+                <tr>
+                    <td style="width: 2%;text-align:center;" bgcolor=""> 26</td>
+                    <td style="width: 17%;text-align:center;"> 26 février 2024</td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S09 Conception/C04 Liaison pivot/09-C04.pdf">S09-C04 Liaison pivot</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S06 Electronique de puissance/TD01 Modélisation des circuits électriques/06-TD01.pdf">S06-TD01 Modélisation des circuits électriques</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="/si/5">S05-TP03 Lois de Coulomb (Arc-bouttement)</a>
+
+
+
+        		            <a href="/si/5">S05-TP04 Lois de Coulomb (Efforts repartis)</a>
+
+
+        		        </td>
+
+                </tr>
+
+
+
+
+                <tr>
+                    <td style="width: 2%;text-align:center;" bgcolor=""> 27</td>
+                    <td style="width: 17%;text-align:center;"> 4 mars 2024</td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S06 Electronique de puissance/C01 Dipôles et sources électriques/06-C01.pdf">S06-C01 Dipôles et sources électriques</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S06 Electronique de puissance/TD02 Convertisseurs statiques/06-TD02.pdf">S06-TD02 Convertisseurs statiques</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="/si/9">S09-TP02 Liaison pivot</a>
+
+
+        		        </td>
+
+                </tr>
+
+
+
+
+                <tr>
+                    <td style="width: 2%;text-align:center;" bgcolor=""> 28</td>
+                    <td style="width: 17%;text-align:center;"> 11 mars 2024</td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S06 Electronique de puissance/C02 Convertisseurs statiques/06-C02.pdf">S06-C02 Convertisseurs statiques</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S09 Conception/TD04 Modeleur volumique/09-TD04.pdf">S09-TD04 Modeleur volumique</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="/si/9">S09-TP02 Liaison pivot</a>
+
+
+        		        </td>
+
+                </tr>
+
+
+
+
+                <tr>
+                    <td style="width: 2%;text-align:center;" bgcolor=""> 29</td>
+                    <td style="width: 17%;text-align:center;"> 18 mars 2024</td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S09 Conception/C03 Modeleurs volumique/09-C03.pdf">S09-C03 Modeleurs volumique</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S07 Les systèmes à évènements discrets/TD01 Logique combinatoire/07-TD01.pdf">S07-TD01 Logique combinatoire</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="/si/6">S06-TP01 Convertisseurs statiques</a>
+
+
+        		        </td>
+
+                </tr>
+
+
+
+
+                <tr>
+                    <td style="width: 2%;text-align:center;" bgcolor=""> 30</td>
+                    <td style="width: 17%;text-align:center;"> 25 mars 2024</td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S07 Les systèmes à évènements discrets/C01 Logique combinatoire/07-C01.pdf">S07-C01 Logique combinatoire</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S07 Les systèmes à évènements discrets/TD02 Logique séquentielle/07-TD02.pdf">S07-TD02 Logique séquentielle</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="/si/6">S06-TP01 Convertisseurs statiques</a>
+
+
+        		        </td>
+
+                </tr>
+
+
+
+
+                <tr>
+                    <td style="width: 2%;text-align:center;" bgcolor=""> 31</td>
+                    <td style="width: 17%;text-align:center;"> 1 avril 2024</td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S07 Les systèmes à évènements discrets/C02 Systèmes à évènements discrets/07-C02.pdf">S07-C02 Systèmes à évènements discrets</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S08 Fabrication/TD01 Essais mécaniques/08-TD01.pdf">S08-TD01 Essais mécaniques</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="/si/9">S09-TP01 Modeleurs volumique</a>
+
+
+        		        </td>
+
+                </tr>
+
+
+
+
+
+                <tr>
+                    <td style="width: 2%;text-align:center;" bgcolor=""> 32</td>
+                    <td style="width: 17%;text-align:center;"> 8 avril 2024</td>
+                    <td colspan="3" style="text-align:center;"> Vacances scolaires</td>
+                </tr>
+
+
+
+
+                <tr>
+                    <td style="width: 2%;text-align:center;" bgcolor=""> 33</td>
+                    <td style="width: 17%;text-align:center;"> 15 avril 2024</td>
+                    <td colspan="3" style="text-align:center;"> Vacances scolaires</td>
+                </tr>
+
+
+
+                <tr>
+                    <td style="width: 2%;text-align:center;" bgcolor=""> 34</td>
+                    <td style="width: 17%;text-align:center;"> 22 avril 2024</td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S07 Les systèmes à évènements discrets/C03 Transmission de données/07-C03.pdf">S07-C03 Transmission de données</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S08 Fabrication/TD02 Matériaux/08-TD02.pdf">S08-TD02 Matériaux</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="/si/7">S07-TP01 Fonctions combinatoires</a>
+
+
+        		        </td>
+
+                </tr>
+
+
+
+
+                <tr>
+                    <td style="width: 2%;text-align:center;" bgcolor=""> 35</td>
+                    <td style="width: 17%;text-align:center;"> 29 avril 2024</td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S08 Fabrication/C01 Essais mécaniques/08-C01.pdf">S08-C01 Essais mécaniques</a>
+
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S08 Fabrication/C02 Les matériaux/08-C02.pdf">S08-C02 Les matériaux</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S08 Fabrication/TD03 Mécano-soudage/08-TD03.pdf">S08-TD03 Mécano-soudage</a>
+
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S08 Fabrication/TD04 Moulage/08-TD04.pdf">S08-TD04 Moulage</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="/si/7">S07-TP02 Logique séquentielle</a>
+
+
+        		        </td>
+
+                </tr>
+
+
+
+
+                <tr>
+                    <td style="width: 2%;text-align:center;" bgcolor=""> 36</td>
+                    <td style="width: 17%;text-align:center;"> 6 mai 2024</td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S08 Fabrication/C03 Mécano-soudage/08-C03.pdf">S08-C03 Mécano-soudage</a>
+
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S08 Fabrication/C04 Moulage/08-C04.pdf">S08-C04 Moulage</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S08 Fabrication/TD05 Forgeage/08-TD05.pdf">S08-TD05 Forgeage</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="/si/7">S07-TP02 Logique séquentielle</a>
+
+
+        		        </td>
+
+                </tr>
+
+
+
+
+                <tr>
+                    <td style="width: 2%;text-align:center;" bgcolor=""> 37</td>
+                    <td style="width: 17%;text-align:center;"> 13 mai 2024</td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S08 Fabrication/C05 Forgeage/08-C05.pdf">S08-C05 Forgeage</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S08 Fabrication/TD06 Usinage/08-TD06.pdf">S08-TD06 Usinage</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="/si/8">S08-TP01 Mécano-soudage</a>
+
+
+        		        </td>
+
+                </tr>
+
+
+
+
+                <tr>
+                    <td style="width: 2%;text-align:center;" bgcolor=""> 38</td>
+                    <td style="width: 17%;text-align:center;"> 20 mai 2024</td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S08 Fabrication/C06 Usinage/08-C06.pdf">S08-C06 Usinage</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S09 Conception/TD06 Défauts géométriques/09-TD06.pdf">S09-TD06 Défauts géométriques</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="/si/8">S08-TP02 Moulage</a>
+
+
+        		        </td>
+
+                </tr>
+
+
+
+
+                <tr>
+                    <td style="width: 2%;text-align:center;" bgcolor=""> 39</td>
+                    <td style="width: 17%;text-align:center;"> 27 mai 2024</td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S09 Conception/C05 Défauts géométriques/09-C05.pdf">S09-C05 Défauts géométriques</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S09 Conception/TD07 Spécifications géométriques/09-TD07.pdf">S09-TD07 Spécifications géométriques</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="/si/8">S08-TP03 Forgeage</a>
+
+
+        		        </td>
+
+                </tr>
+
+
+
+
+
+                <tr>
+                    <td style="width: 2%;text-align:center;" bgcolor=""> 40</td>
+                    <td style="width: 17%;text-align:center;"> 3 juin 2024</td>
+                    <td colspan="3" style="text-align:center;"> Concours blanc</td>
+                </tr>
+
+
+
+
+                <tr>
+                    <td style="width: 2%;text-align:center;" bgcolor=""> 41</td>
+                    <td style="width: 17%;text-align:center;"> 10 juin 2024</td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S09 Conception/C06 Spécifications géométriques/09-C06.pdf">S09-C06 Spécifications géométriques</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S09 Conception/TD08 Métrologie/09-TD08.pdf">S09-TD08 Métrologie</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="/si/9">S09-TP03 Défauts géométriques</a>
+
+
+        		        </td>
+
+                </tr>
+
+
+
+
+                <tr>
+                    <td style="width: 2%;text-align:center;" bgcolor=""> 42</td>
+                    <td style="width: 17%;text-align:center;"> 17 juin 2024</td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="https://github.com/Costadoat/Sciences-Ingenieur/raw/master/S09 Conception/C07 Métrologie/09-C07.pdf">S09-C07 Métrologie</a>
+
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="/si/9">S09-TP04 Tolérancement et spécification</a>
+
+
+        		        </td>
+
+                </tr>
+
+
+
+
+                <tr>
+                    <td style="width: 2%;text-align:center;" bgcolor=""> 43</td>
+                    <td style="width: 17%;text-align:center;"> 24 juin 2024</td>
+
+
+	                    <td style="width: 27%;">
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+        		        </td>
+
+
+	                    <td style="width: 27%;">
+
+
+        		            <a href="/si/9">S09-TP05 Métrologie</a>
+
+
+        		        </td>
+
+                </tr>
+
+
+
+            </table>
+    </div>
+
+    <!-- /.row -->
+
+
+
+       </div>
+
+
+ <!-- Footer -->
+   <footer class="py-5 bg-light">
+    <div class="container">
+      <p class="m-0 text-center text-black">Copyright &copy; Renaud Costadoat 2019</p>
+    </div>
+    <!-- /.container -->
+  </footer>
+
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.bundle.min.js"></script>
+<script type="text/javascript" src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+</body>
+
+</html>

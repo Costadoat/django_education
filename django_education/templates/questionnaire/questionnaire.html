@@ -1,0 +1,29 @@
+{% extends "base1.html" %}
+{% load static %}
+
+{% block titre_page %}{{quiz.title}}{% endblock %}
+
+{% block content1 %}
+
+<table class="table table-bordered">
+ <tr><td>Nom</td><td>{{job.quiz}}</td></tr>
+ <tr><td>Description</td><td>{{job.quiz.description}}</td></tr>
+ <tr><td>Elèves</td><td>{{job.tous_eleves}}</td></tr>
+ <tr><td>Créé le </td><td>{{job.datetime}}</td></tr>
+</table>
+<br>
+
+Liste des questions: <br>
+<table class="table table-bordered">
+  <tr><th>Question</th><th>Validation élève</th><th>Validation prof</th></tr>
+
+  {%for work in works%}
+  <tr><td><a href="/questionnaires/{{job.id}}/{{work.id}}">{{work.question.num}} - {{work.question.texte}}</a> </td>
+    <td>{{work.get_status_eleve_display}}</td><td color="green"> {{work.get_status_prof_display}}</td></tr>
+{%endfor%}
+  </table>
+
+<a href="/questionnaires/"><button type="button" class="btn btn-primary"> Retour </button></a>
+
+
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "base1.html" %}
+{% block title %}Liste des fiches{% endblock %}
+{% block bodyId %}fichesPage{% endblock %}
+
+{% block titre_page %}
+Liste des fiches
+{% endblock %}
+
+{%block content1%}
+
+ <!-- Marketing Icons Section -->
+    <div class="row">
+
+    <table id="fiches" class="table table-striped sequences">
+            {% for fiche in Fiches %}
+                <tr>
+
+                    <td class="ninety{%if fiche.1 and not fiche.2 %} bg-primary {%else%} bg-danger{%endif%}">
+                    <a href="/si/{{fiche.0.ressource.sequence.numero}}/{{fiche.0.ressource.numero}}/fiche_ressource" %}
+                    class="text-white"">{{fiche.0}}</a></td>
+                </tr>
+            {% endfor %}
+            </table>
+    </div>
+
+    <!-- /.row -->
+
+{% endblock %}
