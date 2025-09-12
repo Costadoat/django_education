@@ -565,7 +565,7 @@ def afficher_sysml(request,id_systeme):
 
 def relative_url_sysml(request, id_systeme, dossier, data):
     nom_systeme=systeme.objects.get(id=id_systeme)
-    return redirect(remove_accents(github_raw+'Systemes/'+str(nom_systeme)+'/SysMl/'+dossier+'/'+data))
+    return redirect(remove_accents(github_raw+'Sciences-Ingenieur/master/Systemes/'+str(nom_systeme)+'/SysMl/'+dossier+'/'+data))
 
 def relative_url_sysml_app(request, id_systeme, fichier):
     id_get=request.GET.get('_dc', '')
