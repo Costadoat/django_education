@@ -150,12 +150,6 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTOCOL', 'https')
 # pour le local
 STATIC_ROOT = os.path.join(BASE_DIR, '/static')
 
-RECAPTCHA_PUBLIC_KEY = "6LdvsAAsAAAAAKDjQhmm7INKV82W5U54OXOOkTrP"
-RECAPTCHA_PRIVATE_KEY = "6LdvsAAsAAAAAH_nr60gy_lZ1q6UujY_1yW7Sosu"
-
-# Optionnel : logs pour debug
-RECAPTCHA_REQUIRED_SCORE = 0.5
-
 try:
     from .local_settings import *
 except ImportError:
