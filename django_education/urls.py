@@ -90,6 +90,4 @@ urlpatterns = [
     path('contact/', contact),
     path('', index),
     path('thanks/', thanks),
-    path('admin/', admin.site.urls),
-    path('captcha/', include('captcha.urls')),
-]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    path('admin/', admin.site.urls)] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

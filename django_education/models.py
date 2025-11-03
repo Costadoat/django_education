@@ -770,8 +770,8 @@ class DS(models.Model):
                 p+=1
                 l_q=i
             note+=(points_parties[p]/(5.*sum(coefficients[l_q:question_parties[p]+l_q]))*n*coefficients[i])
-        return ceil(note*ajustement*10)/10.
-
+        return ceil(10*(note+(20-note)*ajustement/10.))/10
+        
     def notes_eleve_liste(self,etudiant):
         notes_ds=Note.objects.filter(etudiant=etudiant,ds=self).values('value').order_by('id')
         note=[]

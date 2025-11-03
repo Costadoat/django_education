@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'cffqzfyctgin+9q+j(0cegjfd#mvw+q%^*%qprc*qzck(=c^tm'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['127.0.0.1','192.168.0.16','78.192.222.66','www.costadoat.fr','costadoat.fr']
 
@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'django_filters',
     'django_tex',
     'django.contrib.sitemaps',
-    'captcha',]
+    'django_recaptcha',
+    ]
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
@@ -149,8 +150,11 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTOCOL', 'https')
 # pour le local
 STATIC_ROOT = os.path.join(BASE_DIR, '/static')
 
-CAPTCHA_CHALLENGE_FUNCT='math_challenge'
-CAPTCHA_LENGTH=8
+RECAPTCHA_PUBLIC_KEY = "6LdvsAAsAAAAAKDjQhmm7INKV82W5U54OXOOkTrP"
+RECAPTCHA_PRIVATE_KEY = "6LdvsAAsAAAAAH_nr60gy_lZ1q6UujY_1yW7Sosu"
+
+# Optionnel : logs pour debug
+RECAPTCHA_REQUIRED_SCORE = 0.5
 
 try:
     from .local_settings import *

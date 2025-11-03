@@ -1,6 +1,6 @@
 # -*-coding: utf-8 -*-
 
-from django.shortcuts import render, redirect, HttpResponseRedirect
+from django.shortcuts import render, redirect
 from .models import Utilisateur, sequence, sequence_info, famille_competence, competence, cours, cours_info,\
     td, td_info, tp, ilot,tp_info, khole, Note, Etudiant, Professeur, langue_vivante, DS, systeme, parametre, fichier_systeme,\
     image_systeme, video, videoyoutube, ressource, item_synthese, fiche_synthese, reponse_item_synthese, seance, reglage_date,\
@@ -15,15 +15,15 @@ from django.core.mail import send_mail
 from django_tex.shortcuts import render_to_pdf
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Q
-
 from .forms import ContactForm, ReponseItemSyntheseForm, FicheSuiviForm
 from datetime import datetime, timedelta
 from jchart import Chart
 from jchart.config import Axes, DataSet, rgba
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from urllib.request import urlopen
 import unicodedata
 import random
+from django_ratelimit.decorators import ratelimit
 
 github_raw='https://raw.githubusercontent.com/Costadoat/'
 github='https://github.com/Costadoat/'
@@ -60,7 +60,6 @@ def upload_eleves(request):
             new_persons = request.FILES['myfile']
             imported_data = new_persons.read().decode("utf-8")
             lignes = imported_data.split("\n")
-            print(lignes)
             for ligne1 in lignes[1:-1]:
                 ligne=ligne1.split(';')
                 mail=remove_space(ligne[3])
@@ -78,7 +77,6 @@ def upload_eleves(request):
             new_persons = request.FILES['myfile']
             imported_data = new_persons.read().decode("iso8859-1")
             lignes = imported_data.split("\n")
-            print(imported_data[0])
         return render(request, 'simple_upload.html',{'done': True})
     return render(request, 'simple_upload.html')
 
@@ -235,7 +233,7 @@ class CompetenceChart(Chart):
 
 @login_required(login_url='/accounts/login/')
 def resultats_vierge(request):
-    etudiants = Etudiant.objects.filter(user__date_joined__gte=rentree_scolaire()).values('user')[0]['user']
+    etudiants = Etudiant.objects.filter(annee='PTSI').values('user')[0]['user']
     return redirect('/resultats/'+str(etudiants)+'/')
 
 @login_required(login_url='/accounts/login/')
@@ -302,8 +300,9 @@ def ds_eleve(request, id_etudiant):
     liste_ds=[]
     for ds in dss:
         ds=DS.objects.get(id=ds['ds'])
-        liste_ds.append([ds,ds.notes_eleve_liste(id_etudiant),range(1,len(ds.notes_eleve_liste(id_etudiant))+1),\
-                         ds.coefficients_liste(),ds.parties_liste(),ds.note_eleve(id_etudiant),ds.classement_eleve(id_etudiant)])
+        ds_data={'date':ds.date,'ajustement':ds.ajustement,'moyenne':ds.moyenne,'ecart_type':ds.ecart_type}
+        liste_ds.append([ds_data,ds.notes_eleve_liste(id_etudiant),range(1,len(ds.notes_eleve_liste(id_etudiant))+1),\
+                         ds.coefficients_liste(),ds.parties_liste(),ds.note_eleve(id_etudiant)])#,ds.classement_eleve(id_etudiant)])
     context = {
         'chart': DetailsCharts(id_etudiant), 'liste_ds': liste_ds, 'ds': True,
     }
@@ -390,12 +389,12 @@ class ResultatsCharts(Chart):
     }
     def __init__(self, id_etudiant):
         Chart.__init__(self)
-        self.etudiants = Etudiant.objects.filter(user__date_joined__gte=rentree_scolaire()).values('user','user__last_name', 'user__first_name')
+        self.etudiants = Etudiant.objects.filter(annee='PTSI').values('user','user__last_name', 'user__first_name')
         self.etudiant_note = Etudiant.objects.filter(user=id_etudiant).values('user','user__last_name', 'user__first_name')
         notes_glob = Note.objects.filter(etudiant=id_etudiant).exclude(value=9).exclude(competence=0)\
             .values('competence__famille__nom').annotate(moyenne=Avg('value'))\
             .order_by('competence__famille__nom')
-        notes_glob_classe = Note.objects.filter(etudiant__user__date_joined__gte=rentree_scolaire()).exclude(value=9).exclude(competence=0)\
+        notes_glob_classe = Note.objects.filter(etudiant__annee='PTSI').exclude(value=9).exclude(competence=0)\
             .values('competence__famille__nom').annotate(moyenne=Avg('value'))\
             .order_by('competence__famille__nom')
 
@@ -463,12 +462,12 @@ class DetailsCharts(Chart):
 
     def __init__(self, id_etudiant):
         Chart.__init__(self)
-        self.etudiants = Etudiant.objects.filter(user__date_joined__gte=rentree_scolaire()).values('user','user__last_name', 'user__first_name')
+        self.etudiants = Etudiant.objects.filter(annee='PTSI').values('user','user__last_name', 'user__first_name')
         self.etudiant_note = Etudiant.objects.filter(user=id_etudiant).values('user','user__last_name', 'user__first_name')
         notes = Note.objects.filter(etudiant__user=id_etudiant).exclude(value=9).exclude(competence=0)\
             .values('competence', 'competence__famille', 'competence__nom', 'competence__reference', 'competence__famille__nom')\
             .annotate(moyenne=Avg('value')).order_by('competence')
-        notes_toute_classe = Note.objects.filter(etudiant__user__date_joined__gte=rentree_scolaire())\
+        notes_toute_classe = Note.objects.filter(etudiant__annee='PTSI')\
             .exclude(value=9).exclude(competence=0).values('competence', 'competence__famille', 'competence__nom', 'competence__reference', 'competence__famille__nom')\
             .annotate(moyenne=Avg('value')).order_by('competence')
         self.liste_label=[]
@@ -528,32 +527,34 @@ def relative_url_view(request, year, month, day, ext, nom):
 def relative_url_view_systeme(request, ext, nom, id_systeme, action):
     return redirect('/static/systemes/'+nom+'.'+ext)
 
+#@ratelimit(key='ip', rate='5/m', method='POST', block=True)
 def contact(request):
-    # if this is a POST request we need to process the form data
     if request.method == 'POST':
-        # create a form instance and populate it with data from the request:
         form = ContactForm(request.POST)
-        # check whether it's valid:
         if form.is_valid():
+            sender = form.cleaned_data['sender']
             subject = form.cleaned_data['subject']
             message = form.cleaned_data['message']
-            sender = form.cleaned_data['sender']
             cc_myself = form.cleaned_data['cc_myself']
 
             recipients = ['costadoat@crans.org']
             if cc_myself:
                 recipients.append(sender)
-            if subject and message and sender:
-                send_mail('[Costadoat.fr] '+subject, message, sender, recipients)
-                return HttpResponseRedirect('/thanks/')
 
-    # if a GET (or any other method) we'll create a blank form
+            send_mail(
+                '[Costadoat.fr] ' + subject,
+                message,
+                sender,
+                recipients,
+            )
+            return HttpResponseRedirect('/thanks/')
     else:
         if request.user.is_authenticated:
             form = ContactForm(initial={'sender': request.user.email})
         else:
             form = ContactForm()
-    return render(request, 'contact.html', {'form': form, 'thanks': False})
+
+    return render(request, 'contact.html', {'form': form})
 
 def thanks(request):
     return render(request, 'contact.html', {'thanks': True})
@@ -717,7 +718,6 @@ def liste_fiches_ressource(request, *args):
 #     cours=cours+['']*(max(len(cours),len(tds),len(tps))-len(cours))
 #     tds=tds+['']*(max(len(cours),len(tds),len(tps))-len(tds))
 #     tps=tps+['']*(max(len(cours),len(tds),len(tps))-len(tps))
-#     print(cours)
 #     present=0
 #     i,j=0,0
 #     while j < len(cours):

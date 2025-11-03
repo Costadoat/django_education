@@ -1,18 +1,44 @@
 from django import forms
 from .models import item_synthese
 from django.forms import ModelForm
-from captcha.fields import CaptchaField
 from datetime import datetime
+from django_recaptcha.fields import ReCaptchaField
+from django_recaptcha.widgets import ReCaptchaV2Checkbox, ReCaptchaV3
 
 today = datetime.now()
 date_today=today.strftime("%Y-%m-%d")
     
+
 class ContactForm(forms.Form):
-    subject = forms.CharField(label="Sujet du message ")
-    sender = forms.EmailField(label="Expéditeur (à modifier si besoin) ")
-    cc_myself = forms.BooleanField(required=False, label="Envoyer une copie sur mon mail ")
-    message = forms.CharField(widget=forms.Textarea)
-    captcha = CaptchaField()
+    sender = forms.EmailField(
+        label="Votre email",
+        widget=forms.EmailInput(attrs={"class": "form-control"})
+    )
+    subject = forms.CharField(
+        label="Sujet",
+        widget=forms.TextInput(attrs={"class": "form-control"})
+    )
+    message = forms.CharField(
+        label="Message",
+        widget=forms.Textarea(attrs={"class": "form-control"})
+    )
+    cc_myself = forms.BooleanField(
+        label="Recevoir une copie",
+        required=False,
+        widget=forms.CheckboxInput(attrs={"class": "form-check-input"})
+    )
+    website = forms.CharField(
+        required=False,
+        widget=forms.HiddenInput()
+    )
+    captcha = ReCaptchaField(widget=ReCaptchaV3)  # reCAPTCHA v3
+
+    def clean_website(self):
+        data = self.cleaned_data['website']
+        if data:
+            raise forms.ValidationError("Spam détecté")
+        return data
+        
 
 CHOICES=[('1','Premier ordre (K,\u03C4)'),('2',u'Second ordre (K,\u03BE,\u03C90)'),('3','Second ordre (K,\u03C91,\u03C92)'),('4','Forme générale'),('5','Exercice simple'),('6','Exercice pas simple')]
 
